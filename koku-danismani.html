@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Koku Danışmanı | Foko Doa Kozmetik</title>
+    <meta name="description" content="Koku tercihlerinize göre size özel Doa Kozmetik parfüm önerisi alın. İmza ve muadil koleksiyonlarımızdan kişisel kokunuzu bulun.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <style>
+        .kd-header {
+            padding: 120px 2rem 3rem;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .kd-header::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(circle at 30% 70%, rgba(194,169,121,0.15) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 30%, rgba(194,169,121,0.1) 0%, transparent 50%);
+        }
+        .kd-header h1 { color: #fff; position: relative; z-index: 1; }
+        .kd-header p { color: rgba(255,255,255,0.7); position: relative; z-index: 1; }
+        .kd-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 3rem 2rem 6rem;
+        }
+
+        /* Progress bar */
+        .progress-bar {
+            display: flex;
+            justify-content: center;
+            gap: 0;
+            margin-bottom: 3rem;
+        }
+        .prog-step {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .prog-dot {
+            width: 36px; height: 36px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 600; font-size: 0.85rem;
+            background: #f0ece4;
+            color: #999;
+            transition: all 0.4s;
+        }
+        .prog-dot.active { background: var(--clr-primary); color: #fff; box-shadow: 0 3px 12px rgba(194,169,121,0.35); }
+        .prog-dot.done { background: #4CAF50; color: #fff; }
+        .prog-text { font-size: 0.75rem; color: #999; font-weight: 500; }
+        .prog-text.active { color: var(--clr-primary); font-weight: 600; }
+        .prog-line { width: 50px; height: 2px; background: #e8e4dc; margin: 0 0.6rem; align-self: center; transition: 0.4s; }
+        .prog-line.done { background: #4CAF50; }
+
+        /* Panels */
+        .kd-panel { display: none; animation: fadeSlide 0.5s ease; }
+        .kd-panel.active { display: block; }
+        @keyframes fadeSlide {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Question cards */
+        .q-title {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            color: var(--clr-text-dark);
+            margin-bottom: 0.4rem;
+        }
+        .q-sub { color: var(--clr-text-muted); margin-bottom: 2rem; font-size: 0.9rem; }
+
+        /* Choice grid */
+        .choice-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 1rem;
+        }
+        .choice-grid.wide { grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); }
+        .choice-card {
+            padding: 1.5rem 1.2rem;
+            border: 2px solid #eee;
+            border-radius: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: #fff;
+            text-align: center;
+            user-select: none;
+            position: relative;
+        }
+        .choice-card:hover { border-color: var(--clr-primary-light); transform: translateY(-2px); box-shadow: 0 4px 15px rgba(0,0,0,0.06); }
+        .choice-card.selected {
+            border-color: var(--clr-primary);
+            background: rgba(194,169,121,0.06);
+            box-shadow: 0 4px 20px rgba(194,169,121,0.2);
+        }
+        .choice-card .emoji { font-size: 2.2rem; margin-bottom: 0.5rem; display: block; }
+        .choice-card .label { font-weight: 600; font-size: 0.9rem; color: var(--clr-text-dark); display: block; }
+        .choice-card .desc { font-size: 0.75rem; color: var(--clr-text-muted); margin-top: 0.3rem; display: block; }
+        .choice-card .check-mark {
+            position: absolute;
+            top: 10px; right: 10px;
+            width: 22px; height: 22px;
+            border-radius: 50%;
+            border: 2px solid #ddd;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.65rem;
+            color: transparent;
+            transition: 0.3s;
+        }
+        .choice-card.selected .check-mark {
+            background: var(--clr-primary); border-color: var(--clr-primary); color: #fff;
+        }
+
+        /* Scent slider */
+        .scent-slider {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .slider-row {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .slider-row label {
+            min-width: 100px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--clr-text-dark);
+            text-align: right;
+        }
+        .slider-row input[type="range"] {
+            flex: 1;
+            accent-color: var(--clr-primary);
+            height: 6px;
+        }
+        .slider-row .val {
+            min-width: 30px;
+            text-align: center;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--clr-primary);
+        }
+
+        /* Nav */
+        .kd-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2.5rem;
+            gap: 1rem;
+        }
+        .kd-back {
+            padding: 0.8rem 2rem;
+            border: 1px solid #ddd;
+            background: #fff;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            color: #999;
+            transition: 0.3s;
+        }
+        .kd-back:hover { border-color: var(--clr-primary); color: var(--clr-primary); }
+        .kd-next {
+            padding: 0.8rem 2.5rem;
+            border: none;
+            background: var(--clr-primary);
+            color: #fff;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: 0.3s;
+            box-shadow: 0 4px 15px rgba(194,169,121,0.3);
+        }
+        .kd-next:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(194,169,121,0.4); }
+        .kd-next:disabled { opacity: 0.4; cursor: not-allowed; transform: none; box-shadow: none; }
+
+        /* Loading */
+        .kd-loading { display: none; text-align: center; padding: 4rem 2rem; }
+        .kd-loading.active { display: block; }
+        .nose-anim {
+            width: 100px; height: 100px;
+            margin: 0 auto 2rem;
+            font-size: 4rem;
+            animation: sniff 1.2s ease-in-out infinite;
+        }
+        @keyframes sniff {
+            0%, 100% { transform: scale(1) rotate(0); }
+            25% { transform: scale(1.15) rotate(-5deg); }
+            50% { transform: scale(1) rotate(0); }
+            75% { transform: scale(1.15) rotate(5deg); }
+        }
+        .kd-loading h3 { font-family: var(--font-heading); font-size: 1.5rem; color: var(--clr-primary); }
+
+        /* Results */
+        .match-card {
+            background: #fff;
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.07);
+            transition: 0.3s;
+            cursor: pointer;
+        }
+        .match-card:hover { transform: translateY(-5px); box-shadow: 0 12px 35px rgba(0,0,0,0.12); }
+        .match-card-top {
+            position: relative;
+        }
+        .match-card-top img {
+            width: 100%;
+            aspect-ratio: 1;
+            object-fit: cover;
+            background: #f8f6f2;
+        }
+        .match-badge {
+            position: absolute;
+            top: 12px; left: 12px;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .match-badge.imza { background: #C2A979; color: #fff; }
+        .match-badge.muadil { background: #70B08E; color: #fff; }
+        .match-badge.nish { background: #8B5CF6; color: #fff; }
+        .match-pct {
+            position: absolute;
+            bottom: 12px; right: 12px;
+            background: rgba(0,0,0,0.75);
+            color: #fff;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            backdrop-filter: blur(4px);
+        }
+        .match-card-info {
+            padding: 1.2rem;
+        }
+        .match-card-info h4 {
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+            margin-bottom: 0.3rem;
+        }
+        .match-card-info .note-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.3rem;
+            margin: 0.5rem 0;
+        }
+        .note-tag {
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.65rem;
+            font-weight: 500;
+            background: #f5f0e8;
+            color: var(--clr-primary);
+        }
+        .match-card-info .price-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 0.5rem;
+        }
+        .match-card-info .match-price {
+            font-weight: 700;
+            color: var(--clr-primary);
+            font-size: 1rem;
+        }
+        .match-card-info .match-link {
+            font-size: 0.75rem;
+            color: var(--clr-accent);
+            font-weight: 600;
+        }
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+            gap: 1.5rem;
+        }
+        .match-reason {
+            font-size: 0.78rem;
+            color: var(--clr-text-muted);
+            font-style: italic;
+            margin-top: 0.3rem;
+        }
+        .section-divider {
+            font-family: var(--font-heading);
+            font-size: 1.4rem;
+            color: var(--clr-text-dark);
+            margin: 2.5rem 0 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--clr-primary);
+            display: inline-block;
+        }
+        .results-intro {
+            text-align: center;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            background: linear-gradient(135deg, rgba(194,169,121,0.08), rgba(112,176,142,0.08));
+            border-radius: 16px;
+            border: 1px solid rgba(194,169,121,0.15);
+        }
+        .results-intro h2 { font-family: var(--font-heading); font-size: 2rem; color: var(--clr-primary); margin-bottom: 0.5rem; }
+
+        @media (max-width: 600px) {
+            .choice-grid { grid-template-columns: 1fr 1fr; }
+            .choice-grid.wide { grid-template-columns: 1fr; }
+            .prog-text { display: none; }
+            .prog-line { width: 25px; }
+            .slider-row { flex-wrap: wrap; }
+            .slider-row label { min-width: auto; text-align: left; }
+        }
+    </style>
+    <style id="announcement-bar-style">
+        .announcement-bar {
+            width: 100%;
+            background: linear-gradient(90deg, #1a1a1a 0%, #2c2c2c 50%, #1a1a1a 100%);
+            border-bottom: 1px solid rgba(194,169,121,0.3);
+            padding: 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 10000;
+            overflow: hidden;
+        }
+        .announcement-inner {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            padding: 0.5rem 2rem;
+            animation: marquee-fade 0.5s ease;
+        }
+        .announcement-inner p {
+            margin: 0;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.72rem;
+            font-weight: 500;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #c2a979;
+            white-space: nowrap;
+        }
+        .announcement-icon {
+            color: #c2a979;
+            font-size: 0.6rem;
+            opacity: 0.7;
+            flex-shrink: 0;
+        }
+        @keyframes marquee-fade {
+            from { opacity: 0; transform: translateY(-4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        /* Push body content down for the bar */
+        body {
+            padding-top: 36px !important;
+        }
+    </style>
+    <style id="wa-float-style">
+        .wa-float-wrapper {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 9998;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            flex-direction: row;
+        }
+        .wa-float-btn {
+            width: 60px;
+            height: 60px;
+            background-color: #25D366;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 20px rgba(37,211,102,0.45), 0 2px 8px rgba(0,0,0,0.2);
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+            text-decoration: none;
+            flex-shrink: 0;
+            animation: wa-pulse 2.5s ease-in-out infinite;
+        }
+        .wa-float-btn:hover {
+            transform: scale(1.12);
+            box-shadow: 0 8px 32px rgba(37,211,102,0.6), 0 4px 12px rgba(0,0,0,0.25);
+        }
+        .wa-tooltip {
+            background: #1a1a1a;
+            color: #fff;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 500;
+            padding: 0.55rem 1rem;
+            border-radius: 8px;
+            white-space: nowrap;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+            opacity: 0;
+            transform: translateX(8px);
+            pointer-events: none;
+            transition: opacity 0.2s ease, transform 0.2s ease;
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+        .wa-tooltip::after {
+            content: '';
+            position: absolute;
+            right: -6px;
+            top: 50%;
+            transform: translateY(-50%);
+            border-width: 6px 0 6px 6px;
+            border-style: solid;
+            border-color: transparent transparent transparent #1a1a1a;
+        }
+        .wa-tooltip { position: relative; }
+        .wa-float-wrapper:hover .wa-tooltip {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        @keyframes wa-pulse {
+            0%, 100% { box-shadow: 0 4px 20px rgba(37,211,102,0.45), 0 2px 8px rgba(0,0,0,0.2); }
+            50% { box-shadow: 0 4px 30px rgba(37,211,102,0.75), 0 2px 8px rgba(0,0,0,0.2); }
+        }
+        @media (max-width: 480px) {
+            .wa-float-wrapper { bottom: 1.2rem; right: 1.2rem; }
+            .wa-tooltip { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Duyuru Çubuğu -->
+    <div class="announcement-bar" id="announcement-bar">
+        <div class="announcement-inner">
+            <span class="announcement-icon">✦</span>
+            <p>Doa Kozmetik Mersin Yetkili Satış Noktası &nbsp;—&nbsp; %100 Orijinal Ürün Garantisi</p>
+            <span class="announcement-icon">✦</span>
+        </div>
+    </div>
+
+    <nav class="navbar scrolled" id="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="brand-logo">
+                <span class="brand-doa">Foko Doa</span>
+                <span class="brand-subtitle">KOZMETİK</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Anasayfa</a></li>
+                <li><a href="hakkimizda.html">Biz Kimiz</a></li>
+                <li><a href="urunler.html">Tüm Ürünler</a></li>
+                <li><a href="blog.html">Cilt Rehberi & Blog</a></li>
+                <li><a href="analiz.html" class="nav-special-btn">AI ANALİZ</a></li>
+                <li><a href="koku-danismani.html" class="nav-special-btn">KOKU DANIŞMANI</a></li>
+            </ul>
+            <div class="nav-icons">
+                <a href="https://www.shopier.com/fokomersin" target="_blank" class="nav-icon-btn" title="Ara">
+                    <ion-icon name="search-outline"></ion-icon>
+                </a>
+                <a href="https://www.shopier.com/focuserlogin" target="_blank" class="nav-icon-btn" title="Hesabım">
+                    <ion-icon name="person-outline"></ion-icon>
+                </a>
+                <a href="https://www.shopier.com/fokomersin" target="_blank" class="nav-icon-btn" title="Favoriler">
+                    <ion-icon name="heart-outline"></ion-icon>
+                </a>
+                <a href="#" class="nav-icon-btn nav-icon-cart" id="nav-cart-btn" title="Sepetim">
+                    <ion-icon name="bag-outline"></ion-icon>
+                    <span class="cart-badge" id="cart-badge">0</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <header class="kd-header">
+        <h1 class="section-title" style="font-size: 2.8rem; color: #fff;">👃 Koku Danışmanı</h1>
+        <p class="section-subtitle" style="max-width: 600px; margin: 0.5rem auto 0; color: rgba(255,255,255,0.7);">
+            3 kısa adımda koku profilinizi çıkaralım, size en uygun Doa Kozmetik imza ve muadil parfümleri önerelim.
+        </p>
+    </header>
+
+    <main class="kd-container">
+
+        <!-- Progress -->
+        <div class="progress-bar">
+            <div class="prog-step"><div class="prog-dot active" id="pd-1">1</div><span class="prog-text active" id="pt-1">Kim?</span></div>
+            <div class="prog-line" id="pl-1"></div>
+            <div class="prog-step"><div class="prog-dot" id="pd-2">2</div><span class="prog-text" id="pt-2">Ne Seversin?</span></div>
+            <div class="prog-line" id="pl-2"></div>
+            <div class="prog-step"><div class="prog-dot" id="pd-3">3</div><span class="prog-text" id="pt-3">Nerede?</span></div>
+            <div class="prog-line" id="pl-3"></div>
+            <div class="prog-step"><div class="prog-dot" id="pd-4">4</div><span class="prog-text" id="pt-4">Sonuç</span></div>
+        </div>
+
+        <!-- STEP 1: Gender -->
+        <div class="kd-panel active" id="kp-1">
+            <h3 class="q-title">Koku arıyorsunuz?</h3>
+            <p class="q-sub">Cinsiyet tercihinizi seçin, size uygun önerileri filtreleyelim.</p>
+            <div class="choice-grid" style="max-width: 500px; margin: 0 auto;">
+                <div class="choice-card" data-val="kadin" onclick="pick(1, this)">
+                    <span class="emoji">👩</span>
+                    <span class="label">Kadın Parfümü</span>
+                    <span class="check-mark">✓</span>
+                </div>
+                <div class="choice-card" data-val="erkek" onclick="pick(1, this)">
+                    <span class="emoji">👨</span>
+                    <span class="label">Erkek Parfümü</span>
+                    <span class="check-mark">✓</span>
+                </div>
+                <div class="choice-card" data-val="unisex" onclick="pick(1, this)">
+                    <span class="emoji">⚡</span>
+                    <span class="label">Unisex / Farketmez</span>
+                    <span class="check-mark">✓</span>
+                </div>
+            </div>
+            <div class="kd-actions" style="justify-content: flex-end;">
+                <button class="kd-next" id="btn-s1" disabled onclick="goStep(2)">Devam →</button>
+            </div>
+        </div>
+
+        <!-- STEP 2: Scent families -->
+        <div class="kd-panel" id="kp-2">
+            <h3 class="q-title">Hangi koku ailelerini seviyorsunuz?</h3>
+            <p class="q-sub">Birden fazla seçebilirsiniz. En az 1 tane seçin.</p>
+            <div class="choice-grid wide">
+                <div class="choice-card" data-val="taze" onclick="pickMulti(2, this)">
+                    <span class="emoji">🌊</span>
+                    <span class="label">Taze & Deniz</span>
+                    <span class="desc">Okyanus esintisi, ferah, temiz</span>
+                    <span class="check-mark">✓</span>
+                </div>
+                <div class="choice-card" data-val="ciceksi" onclick="pickMulti(2, this)">
+                    <span class="emoji">🌸</span>
+                    <span class="label">Çiçeksi</span>
+                    <span class="desc">Gül, yasemin, lavanta, sümbül</span>
+                    <span class="check-mark">✓</span>
+                </div>
+                <div class="choice-card" data-val="odunsu" onclick="pickMulti(2, this)">
+                    <span class="emoji">🪵</span>
+                    <span class="label">Odunsu & Maskülen</span>
+                    <span class="desc">Sedir, sandal, vetiver, oud</span>
+                    <span class="check-mark">✓</span>
+                </div>
+                <div class="choice-card" data-val="tatli" onclick="pickMulti(2, this)">
+                    <span class="emoji">🍫</span>
+                    <span class="label">Tatlı & Gurme</span>
+                    <span class="desc">Vanilya, çikolata, karamel, badem</span>
+                    <span class="check-mark">✓</span>
+                </div>
+                <div class="choice-card" data-val="baharatli" onclick="pickMulti(2, this)">
+                    <span class="emoji">🌶️</span>
+                    <span class="label">Baharatlı & Oriental</span>
+                    <span class="desc">Tarçın, biber, tütsü, amber</span>
+                    <span class="check-mark">✓</span>
+                </div>
+                <div class="choice-card" data-val="meyvemsi" onclick="pickMulti(2, this)">
+                    <span class="emoji">🍒</span>
+                    <span class="label">Meyvemsi</span>
+                    <span class="desc">Vişne, şeftali, böğürtlen, narenciye</span>
+                    <span class="check-mark">✓</span>
+                </div>
+                <div class="choice-card" data-val="pudra" onclick="pickMulti(2, this)">
+                    <span class="emoji">🤍</span>
+                    <span class="label">Pudralı & Yumuşak</span>
+                    <span class="desc">Pudra, misk, pamuk, temiz ten</span>
+                    <span class="check-mark">✓</span>
+                </div>
+                <div class="choice-card" data-val="yesil" onclick="pickMulti(2, this)">
+                    <span class="emoji">🌿</span>
+                    <span class="label">Yeşil & Aromatik</span>
+                    <span class="desc">Çim, nane, bergamot, defne</span>
+                    <span class="check-mark">✓</span>
+                </div>
+            </div>
+            <div class="kd-actions">
+                <button class="kd-back" onclick="goStep(1)">← Geri</button>
+                <button class="kd-next" id="btn-s2" disabled onclick="goStep(3)">Devam →</button>
+            </div>
+        </div>
+
+        <!-- STEP 3: Occasion + intensity -->
+        <div class="kd-panel" id="kp-3">
+            <h3 class="q-title">Ne zaman kullanacaksınız?</h3>
+            <p class="q-sub">Birden fazla seçebilirsiniz.</p>
+            <div class="choice-grid" style="max-width: 600px; margin: 0 auto;">
+                <div class="choice-card" data-val="gunluk" onclick="pickMulti(3, this)">
+                    <span class="emoji">☀️</span>
+                    <span class="label">Günlük</span>
+                    <span class="desc">İş, okul, her gün</span>
+                    <span class="check-mark">✓</span>
+                </div>
+                <div class="choice-card" data-val="aksam" onclick="pickMulti(3, this)">
+                    <span class="emoji">🌙</span>
+                    <span class="label">Akşam / Gece</span>
+                    <span class="desc">Yemek, buluşma, gece hayatı</span>
+                    <span class="check-mark">✓</span>
+                </div>
+                <div class="choice-card" data-val="ozel" onclick="pickMulti(3, this)">
+                    <span class="emoji">💎</span>
+                    <span class="label">Özel Gün</span>
+                    <span class="desc">Romantik, etkileyici, imza</span>
+                    <span class="check-mark">✓</span>
+                </div>
+                <div class="choice-card" data-val="spor" onclick="pickMulti(3, this)">
+                    <span class="emoji">🏃</span>
+                    <span class="label">Spor / Aktif</span>
+                    <span class="desc">Ferah, hafif, enerjik</span>
+                    <span class="check-mark">✓</span>
+                </div>
+            </div>
+
+            <h3 class="q-title" style="margin-top: 2.5rem;">Bütçe tercihiniz?</h3>
+            <div class="choice-grid" style="max-width: 600px; margin: 0.5rem auto 0;">
+                <div class="choice-card" data-val="ekonomik" onclick="pick(4, this)">
+                    <span class="emoji">💚</span>
+                    <span class="label">Ekonomik</span>
+                    <span class="desc">500 – 750 TL</span>
+                    <span class="check-mark">✓</span>
+                </div>
+                <div class="choice-card" data-val="orta" onclick="pick(4, this)">
+                    <span class="emoji">💛</span>
+                    <span class="label">Orta</span>
+                    <span class="desc">750 – 1.500 TL</span>
+                    <span class="check-mark">✓</span>
+                </div>
+                <div class="choice-card" data-val="premium" onclick="pick(4, this)">
+                    <span class="emoji">💎</span>
+                    <span class="label">Premium</span>
+                    <span class="desc">1.500 TL+</span>
+                    <span class="check-mark">✓</span>
+                </div>
+                <div class="choice-card" data-val="farketmez" onclick="pick(4, this)">
+                    <span class="emoji">🎯</span>
+                    <span class="label">Farketmez</span>
+                    <span class="desc">En uygun kokunun fiyatı önemli değil</span>
+                    <span class="check-mark">✓</span>
+                </div>
+            </div>
+
+            <div class="kd-actions">
+                <button class="kd-back" onclick="goStep(2)">← Geri</button>
+                <button class="kd-next" id="btn-s3" disabled onclick="startMatch()">👃 Kokumu Bul!</button>
+            </div>
+        </div>
+
+        <!-- Loading -->
+        <div class="kd-loading" id="kd-loading">
+            <div class="nose-anim">👃</div>
+            <h3>Koku Profiliniz Oluşturuluyor<span class="loading-dots"></span></h3>
+            <p style="color: var(--clr-text-muted); font-size: 0.9rem;" id="kd-load-msg">Tercihleriniz analiz ediliyor...</p>
+        </div>
+
+        <!-- STEP 4: Results -->
+        <div class="kd-panel" id="kp-4">
+            <div class="results-intro">
+                <h2>🎯 Koku Profilinize En Uygun Parfümler</h2>
+                <p id="profile-summary" style="color: var(--clr-text-muted);"></p>
+            </div>
+            <div id="results-output"></div>
+            <div class="kd-actions" style="justify-content: center; margin-top: 2rem;">
+                <button class="kd-back" onclick="resetAll()">🔄 Yeni Test</button>
+                <a href="https://www.shopier.com/fokomersin" target="_blank" class="kd-next" style="text-decoration: none;">🛒 Shopier Mağazası</a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+        <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <h3>Foko Doa Kozmetik</h3>
+                <p>Siz de doğanın iyileştirici gücüyle tanışın. Cilt ve saç bakımınız için aradığınız kalite.</p>
+                <div class="social-links" style="display: flex; gap: 1.5rem; margin-top: 1.5rem;">
+                    <a href="https://instagram.com/fokomersin" target="_blank" style="color: white; font-size: 1.8rem;"><ion-icon name="logo-instagram"></ion-icon></a>
+                    <a href="https://x.com/fokomersin" target="_blank" style="color: white; font-size: 1.8rem;"><ion-icon name="logo-twitter"></ion-icon></a>
+                </div>
+            </div>
+            
+            <div class="footer-contact">
+                <h4>İletişim & Adres</h4>
+                <p style="display: flex; align-items: start; gap: 0.5rem; margin-bottom: 1rem;">
+                    <ion-icon name="location-outline" style="font-size: 1.2rem; flex-shrink: 0; margin-top: 3px;"></ion-icon>
+                    <span>Bahçelievler Mah., 1803. Sok., Fatih Apt. Sitesi, No: 6/A <br>Yenişehir / Mersin</span>
+                </p>
+                <p style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.8rem;">
+                    <ion-icon name="call-outline" style="font-size: 1.2rem;"></ion-icon>
+                    <a href="tel:05309744362" style="color: rgba(255,255,255,0.7);">0 530 974 43 62</a>
+                </p>
+                <p style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1.5rem;">
+                    <ion-icon name="mail-outline" style="font-size: 1.2rem;"></ion-icon>
+                    <a href="mailto:info@fokodoakozmetik.com" style="color: rgba(255,255,255,0.7);">info@fokodoakozmetik.com</a>
+                </p>
+                
+                <!-- Google Maps Embed -->
+                <div style="border-radius: 8px; overflow: hidden; max-width: 300px; height: 150px;">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3192.6844962921503!2d34.5936!3d36.7906!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzbCsDQ3JzI2LjIiTiAzNMKwMzUnMzcuMCJF!5e0!3m2!1str!2str!4v1700000000000!5m2!1str!2str" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+            </div>
+            
+            <div class="footer-links">
+                <h4>Hızlı Bağlantılar</h4>
+                <ul>
+                    <li><a href="index.html">Anasayfa</a></li>
+                    <li><a href="hakkimizda.html">Biz Kimiz</a></li>
+                    <li><a href="urunler.html">Koleksiyon</a></li>
+                    <li><a href="blog.html">Cilt Rehberi & Blog</a></li>
+                </ul>
+                <a href="https://www.shopier.com/fokomersin" target="_blank" class="btn btn-outline" style="margin-top: 1.5rem; display: inline-block;">Shopier'den Satın Al</a>
+            </div>
+
+            <div class="footer-links">
+                <h4>Müşteri Hizmetleri</h4>
+                <ul>
+                    <li><a href="mesafeli-satis-sozlesmesi.html">Mesafeli Satış Sözleşmesi</a></li>
+                    <li><a href="iptal-iade-kosullari.html">İptal ve İade Koşulları</a></li>
+                    <li><a href="kvkk-aydinlatma-metni.html">KVKK Aydınlatma Metni</a></li>
+                    <li><a href="gizlilik-cerez-politikasi.html">Gizlilik / Çerez Politikası</a></li>
+                </ul>
+                <div style="margin-top: 1.5rem; opacity: 0.6;">
+                    <ion-icon name="shield-checkmark-outline" style="font-size: 2rem; color: white;"></ion-icon>
+                    <p style="font-size: 0.8rem; margin-top: 0.5rem; color: white;">%100 Güvenli Alışveriş</p>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Foko Doa Kozmetik. Tüm hakları saklıdır.</p>
+        </div>
+    </footer>
+
+<script>
+// ===== PARFÜM VERİTABANI =====
+const perfumes = [
+    // === İMZA PARFÜMLER ===
+    { id:'tesaduf', name:'Tesadüf', gender:'kadin', type:'imza', families:['ciceksi','tatli'], occasions:['gunluk','ozel'], notes:['Çiçeksi','Tatlı','Pudralı'], price:500, image:'https://cdn.shopier.app/pictures_mid/fokomersin_00dd68c21cb5ae5518e2404146d5c86b.jpeg', link:'https://www.shopier.com/fokomersin/40866501' },
+    { id:'hayat', name:'Hayat', gender:'kadin', type:'imza', families:['ciceksi','taze'], occasions:['gunluk','spor'], notes:['Çiçeksi','Ferah','Enerjik'], price:500, image:'https://cdn.shopier.app/pictures_mid/fokomersin_a9f72991dd8ae1d012a86356b5235410.jpeg', link:'https://www.shopier.com/fokomersin/40866482' },
+    { id:'gun', name:'Gün', gender:'kadin', type:'imza', families:['taze','ciceksi'], occasions:['gunluk','spor'], notes:['Taze','Günlük','Ferah'], price:500, image:'https://cdn.shopier.app/pictures_mid/fokomersin_2aa295f899797223ce2f89488c4338e2.jpeg', link:'https://www.shopier.com/fokomersin/40866469' },
+    { id:'hayal', name:'Hayal', gender:'kadin', type:'imza', families:['ciceksi','pudra'], occasions:['ozel','aksam'], notes:['Çiçeksi','Romantik','Zarif'], price:750, image:'https://cdn.shopier.app/pictures_mid/fokomersin_87250d84eb0496ec76d6bb53de525ef5.jpeg', link:'https://www.shopier.com/fokomersin/40866447' },
+    { id:'dus', name:'Düş', gender:'kadin', type:'imza', families:['tatli','pudra'], occasions:['aksam','ozel'], notes:['Tatlı','Pudralı','Romantik'], price:500, image:'https://cdn.shopier.app/pictures_mid/fokomersin_347ef5f7a36d2c64bd0b58334113afeb.jpeg', link:'https://www.shopier.com/fokomersin/40866425' },
+    { id:'ida', name:'İda', gender:'kadin', type:'imza', families:['ciceksi','yesil'], occasions:['gunluk','ozel'], notes:['Çiçeksi','Zarif','Hafif'], price:500, image:'https://cdn.shopier.app/pictures_mid/fokomersin_df3d9da5d7b1615d999b8be88c02f4e1.jpeg', link:'https://www.shopier.com/fokomersin/40866403' },
+    { id:'sans', name:'Şans', gender:'kadin', type:'imza', families:['ciceksi','meyvemsi'], occasions:['gunluk','spor'], notes:['Enerjik','Meyvemsi','Çiçeksi'], price:750, image:'https://cdn.shopier.app/pictures_mid/fokomersin_9d0e033db850c7a40fd1b26e1a272b76.jpeg', link:'https://www.shopier.com/fokomersin/40866368' },
+    { id:'pudra', name:'Pudra', gender:'kadin', type:'imza', families:['pudra','ciceksi'], occasions:['gunluk','ozel'], notes:['Pudralı','Yumuşak','Feminen'], price:750, image:'https://cdn.shopier.app/pictures_mid/fokomersin_60cdb46c7067ecffc9826475968527de.jpeg', link:'https://www.shopier.com/fokomersin/40866331' },
+    { id:'kristal', name:'Kristal', gender:'kadin', type:'imza', families:['taze','ciceksi'], occasions:['gunluk','ozel'], notes:['Kristal','Berrak','Ferah'], price:750, image:'https://cdn.shopier.app/pictures_mid/fokomersin_5f331fb4300e4f52ce792e2f1bb3b5dd.jpeg', link:'https://www.shopier.com/fokomersin/40866236' },
+    { id:'visne', name:'Vişne', gender:'kadin', type:'imza', families:['meyvemsi','tatli'], occasions:['aksam','ozel'], notes:['Vişne','Meyvemsi','Tatlı'], price:500, image:'https://cdn.shopier.app/pictures_mid/fokomersin_2af2305e889ce36a5404b0afcdc3b4ac.jpeg', link:'https://www.shopier.com/fokomersin/40866195' },
+    { id:'huzur', name:'Huzur', gender:'kadin', type:'imza', families:['pudra','ciceksi'], occasions:['gunluk'], notes:['Sakin','Huzurlu','Dinlendirici'], price:500, image:'https://cdn.shopier.app/pictures_mid/fokomersin_9871f37341b8bdaf1f5bffb87f8d1a11.jpeg', link:'https://www.shopier.com/fokomersin/40866076' },
+    { id:'aksamkirazi', name:'Akşam Kirazı', gender:'unisex', type:'imza', families:['meyvemsi','baharatli'], occasions:['aksam','ozel'], notes:['Kiraz','Baharatlı','Akşam'], price:500, image:'https://cdn.shopier.app/pictures_mid/fokomersin_c489c8688fb187735cbe9adade9567f2.jpeg', link:'https://www.shopier.com/fokomersin/40866042' },
+    { id:'kam', name:'Kam', gender:'erkek', type:'imza', families:['odunsu','baharatli'], occasions:['aksam','ozel'], notes:['Odunsu','Güçlü','Maskülen'], price:750, image:'https://cdn.shopier.app/pictures_mid/fokomersin_72ac0bc20f381e12415e7f2adca65a33.jpeg', link:'https://www.shopier.com/fokomersin/40865972' },
+    { id:'karagoz', name:'Karagöz', gender:'erkek', type:'imza', families:['odunsu','baharatli'], occasions:['aksam','ozel'], notes:['Karizmatik','Güçlü','Odunsu'], price:500, image:'https://cdn.shopier.app/pictures_mid/fokomersin_a249fe3c9ee37315b95331fcc2df98d3.jpeg', link:'https://www.shopier.com/fokomersin/40865942' },
+    { id:'iyiaksamlar', name:'İyi Akşamlar', gender:'erkek', type:'imza', families:['odunsu','tatli'], occasions:['aksam'], notes:['Akşam','Sıcak','Odunsu'], price:500, image:'https://cdn.shopier.app/pictures_mid/fokomersin_052cf2dad425024f156e318e1404da6c.jpeg', link:'https://www.shopier.com/fokomersin/40865903' },
+    { id:'foca', name:'Foça', gender:'erkek', type:'imza', families:['taze','yesil'], occasions:['gunluk','spor'], notes:['Taze','Aromatik','Ferah'], price:500, image:'https://cdn.shopier.app/pictures_mid/fokomersin_57512c2b5c63fc4607d5fbfff54f9d06.jpeg', link:'https://www.shopier.com/fokomersin/40865876' },
+    { id:'halikarnas', name:'Halikarnas', gender:'erkek', type:'imza', families:['taze','yesil'], occasions:['gunluk','spor'], notes:['Deniz','Taze','Ege'], price:500, image:'https://cdn.shopier.app/pictures_mid/fokomersin_63a22f1c42f40265613004a520a2e3f1.jpeg', link:'https://www.shopier.com/fokomersin/40865844' },
+    { id:'toros', name:'Toros', gender:'erkek', type:'imza', families:['yesil','taze'], occasions:['gunluk','spor'], notes:['Yeşil','Orman','Ferah'], price:500, image:'https://cdn.shopier.app/pictures_mid/fokomersin_d5f7ddcc7b5601ea30f76c6173cf82c6.jpeg', link:'https://www.shopier.com/fokomersin/40865785' },
+    { id:'levant', name:'Levant', gender:'erkek', type:'imza', families:['baharatli','odunsu'], occasions:['aksam','ozel'], notes:['Şark','Baharat','Orient'], price:500, image:'https://cdn.shopier.app/pictures_mid/fokomersin_8da1116d63970053b11d946c06137b91.jpeg', link:'https://www.shopier.com/fokomersin/40865813' },
+    { id:'ten', name:'Ten', gender:'erkek', type:'imza', families:['baharatli','odunsu'], occasions:['aksam','ozel'], notes:['Oriental','Sıcak','Derin'], price:750, image:'https://cdn.shopier.app/pictures_mid/fokomersin_870fce9a55a3a9bf2bf763a365bff673.jpeg', link:'https://www.shopier.com/fokomersin/40865755' },
+    { id:'gocek', name:'Göcek', gender:'erkek', type:'imza', families:['taze','yesil'], occasions:['gunluk','spor'], notes:['Deniz','Okyanus','Ferah'], price:750, image:'https://cdn.shopier.app/pictures_mid/fokomersin_7c2cf58558beaef000b67f95c5dfb71f.jpeg', link:'https://www.shopier.com/fokomersin/40865668' },
+    { id:'ada', name:'Ada', gender:'erkek', type:'imza', families:['odunsu','taze'], occasions:['gunluk','ozel'], notes:['Ada','Sıcak','Odunsu'], price:750, image:'https://cdn.shopier.app/pictures_mid/fokomersin_a5104acd3daf3b8377504e3d8e33e7c4.png', link:'https://www.shopier.com/fokomersin/40865622' },
+
+    // === MUADİL PARFÜMLER ===
+    { id:'hindu', name:'Mancera Hindu Kush', gender:'erkek', type:'muadil', families:['odunsu','baharatli'], occasions:['aksam','ozel'], notes:['Oud','Odunsu','Derin'], price:1000, image:'https://cdn.shopier.app/pictures_mid/fokomersin_8af65b925dbd6932ab4fb9425dd1876e.png', link:'https://www.shopier.com/fokomersin/45905656' },
+    { id:'angels', name:'By Kilian Angels\' Share', gender:'unisex', type:'muadil', families:['tatli','baharatli'], occasions:['aksam','ozel'], notes:['Tarçın','Konyak','Tatlı'], price:1000, image:'https://cdn.shopier.app/pictures_mid/fokomersin_f3731615883996d32997af740af7e469.png', link:'https://www.shopier.com/fokomersin/45895422' },
+    { id:'delina', name:'Delina Exclusif', gender:'kadin', type:'muadil', families:['ciceksi','meyvemsi'], occasions:['ozel','aksam'], notes:['Gül','Litçi','Çiçeksi'], price:1500, image:'https://cdn.shopier.app/pictures_mid/fokomersin_8138c2df2213c50d791ace570eb51880.png', link:'https://www.shopier.com/fokomersin/45895216' },
+    { id:'interlude', name:'Amouage Interlude 53', gender:'unisex', type:'muadil', families:['baharatli','odunsu'], occasions:['aksam','ozel'], notes:['Tütsü','Baharat','Duman'], price:1000, image:'https://cdn.shopier.app/pictures_mid/fokomersin_135313ca37d699f666a6f52ec62ac165.png', link:'https://www.shopier.com/fokomersin/45895145' },
+    { id:'refl45', name:'Amouage Reflection 45', gender:'erkek', type:'muadil', families:['taze','ciceksi'], occasions:['gunluk','ozel'], notes:['Ferah','Çiçeksi','Zarif'], price:750, image:'https://cdn.shopier.app/pictures_mid/fokomersin_56abf5b833641c7de98ec13a07435bf1.png', link:'https://www.shopier.com/fokomersin/45895087' },
+    { id:'memo', name:'Memo Argentina', gender:'unisex', type:'muadil', families:['yesil','taze'], occasions:['gunluk','spor'], notes:['Yeşil','Taze','Doğa'], price:1000, image:'https://cdn.shopier.app/pictures_mid/fokomersin_3014e0a64fff3c582f3e7ff4f1410a53.png', link:'https://www.shopier.com/fokomersin/45894986' },
+    { id:'paradoxe', name:'Prada Paradoxe', gender:'kadin', type:'muadil', families:['ciceksi','pudra'], occasions:['gunluk','ozel'], notes:['Modern','Çiçeksi','Amber'], price:750, image:'https://cdn.shopier.app/pictures_mid/fokomersin_3b3ed98c36c88378f3b05425f3718773.png', link:'https://www.shopier.com/fokomersin/45894902' },
+    { id:'aberc', name:'Abercrombie First Instinct', gender:'erkek', type:'muadil', families:['taze','yesil'], occasions:['gunluk','spor'], notes:['Taze','Temiz','Ferah'], price:750, image:'https://cdn.shopier.app/pictures_mid/fokomersin_a0428a703dbc1e86adbf59e29376e97d.png', link:'https://www.shopier.com/fokomersin/45894804' },
+    { id:'goddess', name:'Burberry Goddess', gender:'kadin', type:'muadil', families:['tatli','ciceksi'], occasions:['aksam','ozel'], notes:['Vanilya','Lavanta','Sıcak'], price:750, image:'https://cdn.shopier.app/pictures_mid/fokomersin_3f66de8c9b628925a594fe9cdcede412.png', link:'https://www.shopier.com/fokomersin/45894754' },
+    { id:'godfire', name:'God of Fire', gender:'unisex', type:'muadil', families:['baharatli','odunsu'], occasions:['aksam','ozel'], notes:['Ateş','Baharat','Yoğun'], price:1000, image:'https://cdn.shopier.app/pictures_mid/fokomersin_c3222b2bc3ebed96cfefa7d04160e9ab.png', link:'https://www.shopier.com/fokomersin/45894660' },
+    { id:'cola', name:'Intense Cola', gender:'unisex', type:'muadil', families:['tatli','baharatli'], occasions:['aksam','gunluk'], notes:['Cola','Tatlı','Eğlenceli'], price:750, image:'https://cdn.shopier.app/pictures_mid/fokomersin_c42a35c036550a3ab45ae1f5d0ebe264.png', link:'https://www.shopier.com/fokomersin/45894606' },
+    { id:'chocgreedy', name:'Chocolate Greedy', gender:'unisex', type:'muadil', families:['tatli'], occasions:['aksam','ozel'], notes:['Çikolata','Kahve','Vanilya'], price:750, image:'https://cdn.shopier.app/pictures_mid/fokomersin_7a04dc5a52a314dc2aa11018d0bca427.png', link:'https://www.shopier.com/fokomersin/45894522' },
+    { id:'reflman', name:'Amouage Reflection Man', gender:'erkek', type:'muadil', families:['taze','ciceksi'], occasions:['gunluk','ozel'], notes:['Neroli','Beyaz Çiçek','Zarif'], price:750, image:'https://cdn.shopier.app/pictures_mid/fokomersin_703208c4465269b5711fca5d7e16245f.png', link:'https://www.shopier.com/fokomersin/45894467' },
+    { id:'virgin', name:'Creed Virgin Island Water', gender:'erkek', type:'muadil', families:['taze','meyvemsi'], occasions:['gunluk','spor'], notes:['Tropik','Hindistancevizi','Lime'], price:750, image:'https://cdn.shopier.app/pictures_mid/fokomersin_87dc00f29c9e997c13788527f02277d6.png', link:'https://www.shopier.com/fokomersin/45894413' },
+    { id:'bogart', name:'Jacques Bogart Silver Scent', gender:'erkek', type:'muadil', families:['odunsu','yesil'], occasions:['gunluk','aksam'], notes:['Klasik','Odunsu','Aromatik'], price:750, image:'https://cdn.shopier.app/pictures_mid/fokomersin_bdca894acbb8ee8ad53c4af692a5733d.png', link:'https://www.shopier.com/fokomersin/45894157' },
+    { id:'si', name:'Armani Sì', gender:'kadin', type:'muadil', families:['ciceksi','meyvemsi'], occasions:['gunluk','ozel'], notes:['Frenk Üzümü','Çiçeksi','Şık'], price:750, image:'https://cdn.shopier.app/pictures_mid/fokomersin_f6fbc7cc1a67a0600a17128b5545fddd.png', link:'https://www.shopier.com/fokomersin/45894015' },
+    { id:'eros', name:'Versace Eros', gender:'erkek', type:'muadil', families:['taze','yesil'], occasions:['gunluk','spor','aksam'], notes:['Nane','Taze','Güçlü'], price:750, image:'https://cdn.shopier.app/pictures_mid/fokomersin_75e5592164bb5b32e5ac431c36a8f352.png', link:'https://www.shopier.com/fokomersin/45893920' },
+    { id:'portrait', name:'Portrait of a Lady', gender:'kadin', type:'muadil', families:['ciceksi','baharatli'], occasions:['aksam','ozel'], notes:['Gül','Paçuli','Sofistike'], price:750, image:'https://cdn.shopier.app/pictures_mid/fokomersin_1f5332f0cceb4331b91701824cd2b1cb.png', link:'https://www.shopier.com/fokomersin/45893795' },
+    { id:'alien', name:'Alien', gender:'kadin', type:'muadil', families:['baharatli','ciceksi'], occasions:['aksam','ozel'], notes:['Yasemin','Oriental','Gizemli'], price:750, image:'https://cdn.shopier.app/pictures_mid/fokomersin_c294c291b2d827734ac63a9f7781d7c2.png', link:'https://www.shopier.com/fokomersin/45893431' },
+    { id:'encre', name:'Encre Noire', gender:'erkek', type:'muadil', families:['odunsu','yesil'], occasions:['aksam','ozel'], notes:['Vetiver','Karanlık','Derin'], price:1999, image:'https://cdn.shopier.app/pictures_mid/fokomersin_464e5117fb9dca7959bf82ddff2c8218.png', link:'https://www.shopier.com/fokomersin/45890567' },
+    { id:'million', name:'Paco 1 Million', gender:'erkek', type:'muadil', families:['tatli','baharatli'], occasions:['aksam','ozel','gunluk'], notes:['Altın','Tatlı','Gösterişli'], price:1500, image:'https://cdn.shopier.app/pictures_mid/fokomersin_b552f4c7231fc6eb7a1cb666f408762a.png', link:'https://www.shopier.com/fokomersin/45890360' },
+    { id:'hypnose', name:'Lancôme Hypnose', gender:'kadin', type:'muadil', families:['baharatli','tatli'], occasions:['aksam','ozel'], notes:['Vanilya','Hipnotik','Oriental'], price:1250, image:'https://cdn.shopier.app/pictures_mid/fokomersin_4c0421f741c411d7e8cbcbb21445be61.png', link:'https://www.shopier.com/fokomersin/45867295' },
+    { id:'pegasus', name:'Pegasus', gender:'erkek', type:'muadil', families:['tatli','odunsu'], occasions:['ozel','aksam'], notes:['Badem','Vanilya','Zarif'], price:1999, image:'https://cdn.shopier.app/pictures_mid/fokomersin_a4c581929c232531e49902a5aa4e9276.png', link:'https://www.shopier.com/fokomersin/45866192' },
+    { id:'halley', name:'Tiziana Terenzi Halley', gender:'unisex', type:'muadil', families:['tatli','baharatli'], occasions:['ozel','aksam'], notes:['Lüks','Tatlı','Yoğun'], price:3000, image:'https://cdn.shopier.app/pictures_mid/fokomersin_2d22fa24c95256fdefaad2a0fd31caed.png', link:'https://www.shopier.com/fokomersin/45865694' },
+
+    // === NİSH ===
+    { id:'aura', name:'Aura Kinetica', gender:'unisex', type:'nish', families:['baharatli','odunsu'], occasions:['ozel'], notes:['Sanatsal','Derin','Unik'], price:9999, image:'https://cdn.shopier.app/pictures_mid/fokomersin_fa3efadaadf7bbebf18fdb27448eb5a8.png', link:'https://www.shopier.com/fokomersin/45249227' },
+    { id:'kuk', name:'Kuk Green Awakening', gender:'unisex', type:'nish', families:['yesil','taze'], occasions:['gunluk','ozel'], notes:['Yeşil Çim','Doğa','Ferah'], price:7999, image:'https://cdn.shopier.app/pictures_mid/fokomersin_12130c94f0c35b68b56545ac27aa2609.png', link:'https://www.shopier.com/fokomersin/45118096' },
+];
+
+// ===== STATE =====
+let answers = { 1: null, 2: [], 3: [], 4: null };
+
+function pick(step, el) {
+    const parent = el.closest('.choice-grid') || el.parentElement;
+    parent.querySelectorAll('.choice-card').forEach(c => c.classList.remove('selected'));
+    el.classList.add('selected');
+    answers[step] = el.dataset.val;
+    updateBtns();
+}
+
+function pickMulti(step, el) {
+    el.classList.toggle('selected');
+    const val = el.dataset.val;
+    if (el.classList.contains('selected')) {
+        answers[step].push(val);
+    } else {
+        answers[step] = answers[step].filter(v => v !== val);
+    }
+    updateBtns();
+}
+
+function updateBtns() {
+    document.getElementById('btn-s1').disabled = !answers[1];
+    document.getElementById('btn-s2').disabled = answers[2].length === 0;
+    document.getElementById('btn-s3').disabled = answers[3].length === 0 || !answers[4];
+}
+
+function goStep(s) {
+    document.querySelectorAll('.kd-panel').forEach(p => p.classList.remove('active'));
+    document.getElementById(`kp-${s}`).classList.add('active');
+    for (let i = 1; i <= 4; i++) {
+        const d = document.getElementById(`pd-${i}`);
+        const t = document.getElementById(`pt-${i}`);
+        d.classList.remove('active','done'); t.classList.remove('active');
+        if (i < s) { d.classList.add('done'); d.textContent = '✓'; }
+        else if (i === s) { d.classList.add('active'); d.textContent = i; }
+        else { d.textContent = i; }
+        if (i === s) t.classList.add('active');
+    }
+    for (let i = 1; i <= 3; i++) {
+        document.getElementById(`pl-${i}`).classList.toggle('done', i < s);
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ===== MATCHING ENGINE =====
+function startMatch() {
+    document.getElementById('kp-3').classList.remove('active');
+    const ld = document.getElementById('kd-loading');
+    ld.classList.add('active');
+    const msgs = ['Koku ailelerini eşleştiriyoruz...','Koleksiyonları tarıyoruz...','En uygun notaları belirliyoruz...','Koku profiliniz hazır!'];
+    let mi = 0;
+    const iv = setInterval(() => { mi++; if (mi < msgs.length) document.getElementById('kd-load-msg').textContent = msgs[mi]; }, 700);
+    setTimeout(() => { clearInterval(iv); ld.classList.remove('active'); showResults(); goStep(4); }, 3000);
+}
+
+function showResults() {
+    const gender = answers[1];
+    const families = answers[2];
+    const occasions = answers[3];
+    const budget = answers[4];
+
+    // Score each perfume
+    const scored = perfumes.map(p => {
+        let score = 0;
+        let reasons = [];
+
+        // Gender match
+        if (gender === 'unisex' || p.gender === 'unisex' || p.gender === gender) {
+            score += 3;
+        } else {
+            return null; // Filter out wrong gender
+        }
+
+        // Family match (most important)
+        const familyMatches = p.families.filter(f => families.includes(f));
+        score += familyMatches.length * 5;
+        if (familyMatches.length > 0) {
+            const familyNames = { taze:'Taze', ciceksi:'Çiçeksi', odunsu:'Odunsu', tatli:'Tatlı', baharatli:'Baharatlı', meyvemsi:'Meyvemsi', pudra:'Pudralı', yesil:'Yeşil' };
+            reasons.push(familyMatches.map(f => familyNames[f]).join(' + ') + ' notaları tercihlerinize uygun');
+        }
+
+        // Occasion match
+        const occMatches = p.occasions.filter(o => occasions.includes(o));
+        score += occMatches.length * 3;
+        if (occMatches.length > 0) {
+            const occNames = { gunluk:'Günlük', aksam:'Akşam', ozel:'Özel gün', spor:'Spor' };
+            reasons.push(occMatches.map(o => occNames[o]).join(', ') + ' kullanımına uygun');
+        }
+
+        // Budget match
+        if (budget !== 'farketmez') {
+            if (budget === 'ekonomik' && p.price <= 750) score += 2;
+            else if (budget === 'orta' && p.price > 500 && p.price <= 1500) score += 2;
+            else if (budget === 'premium' && p.price >= 1500) score += 2;
+            else score -= 1;
+        }
+
+        // Bonus for exact family overlap ≥2
+        if (familyMatches.length >= 2) {
+            score += 3;
+            reasons.unshift('🎯 Koku profilinizle mükemmel uyum!');
+        }
+
+        return { ...p, score, reasons, familyMatches: familyMatches.length };
+    }).filter(Boolean).filter(p => p.familyMatches > 0).sort((a, b) => b.score - a.score);
+
+    // Build profile summary
+    const familyEmojis = { taze:'🌊', ciceksi:'🌸', odunsu:'🪵', tatli:'🍫', baharatli:'🌶️', meyvemsi:'🍒', pudra:'🤍', yesil:'🌿' };
+    const familyLabels = { taze:'Taze', ciceksi:'Çiçeksi', odunsu:'Odunsu', tatli:'Tatlı', baharatli:'Baharatlı', meyvemsi:'Meyvemsi', pudra:'Pudralı', yesil:'Yeşil' };
+    document.getElementById('profile-summary').textContent =
+        `Koku profiliniz: ${families.map(f => familyEmojis[f] + ' ' + familyLabels[f]).join(', ')}`;
+
+    // Split by type
+    const imza = scored.filter(p => p.type === 'imza').slice(0, 6);
+    const muadil = scored.filter(p => p.type === 'muadil').slice(0, 8);
+    const nish = scored.filter(p => p.type === 'nish');
+
+    let html = '';
+
+    if (imza.length > 0) {
+        html += `<h3 class="section-divider">🏷️ İmza Koleksiyonundan Öneriler</h3>`;
+        html += `<div class="results-grid">${imza.map(p => cardHTML(p)).join('')}</div>`;
+    }
+    if (muadil.length > 0) {
+        html += `<h3 class="section-divider" style="margin-top:3rem;">🌟 Muadil Koleksiyonundan Öneriler</h3>`;
+        html += `<div class="results-grid">${muadil.map(p => cardHTML(p)).join('')}</div>`;
+    }
+    if (nish.length > 0) {
+        html += `<h3 class="section-divider" style="margin-top:3rem;">💎 Nish Koleksiyonundan</h3>`;
+        html += `<div class="results-grid">${nish.map(p => cardHTML(p)).join('')}</div>`;
+    }
+    if (scored.length === 0) {
+        html = '<p style="text-align:center;color:var(--clr-text-muted);padding:3rem;">Seçimlerinize tam uygun bir parfüm bulamadık. Lütfen koku ailelerini genişleterek tekrar deneyin.</p>';
+    }
+
+    document.getElementById('results-output').innerHTML = html;
+}
+
+function cardHTML(p) {
+    const maxScore = 20;
+    const pct = Math.min(99, Math.round((p.score / maxScore) * 100));
+    const badges = { imza: 'İMZA', muadil: 'MUADİL', nish: 'NİSH' };
+    return `
+        <div class="match-card" onclick="window.open('${p.link}', '_blank')">
+            <div class="match-card-top">
+                <img src="${p.image}" alt="${p.name}" loading="lazy">
+                <span class="match-badge ${p.type}">${badges[p.type]}</span>
+                <span class="match-pct">%${pct} Uyum</span>
+            </div>
+            <div class="match-card-info">
+                <h4>${p.name}</h4>
+                <div class="note-tags">${p.notes.map(n => `<span class="note-tag">${n}</span>`).join('')}</div>
+                ${p.reasons.length > 0 ? `<p class="match-reason">${p.reasons[0]}</p>` : ''}
+                <div class="price-row">
+                    <span class="match-price">${p.price.toLocaleString()} TL</span>
+                    <span class="match-link">🛒 Shopier'de Gör →</span>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+function resetAll() {
+    answers = { 1: null, 2: [], 3: [], 4: null };
+    document.querySelectorAll('.choice-card').forEach(c => c.classList.remove('selected'));
+    updateBtns();
+    goStep(1);
+}
+</script>
+
+    <!-- YENI EKLENEN UI BILESENLERI -->
+    <div class="ui-overlay" id="ui-overlay"></div>
+
+    <div class="quick-view-modal" id="quick-view-modal">
+        <button class="qv-close-btn" id="qv-close-btn"><ion-icon name="close-outline"></ion-icon></button>
+        <div class="qv-img-container">
+            <img src="" alt="Ürün" class="qv-img" id="qv-img">
+        </div>
+        <div class="qv-content">
+            <span class="qv-cat" id="qv-cat">Kategori</span>
+            <h3 class="qv-title" id="qv-title">Ürün Adı</h3>
+            <div class="qv-price" id="qv-price">Fiyat</div>
+            <p class="qv-desc" id="qv-desc">Buzdolabında saklanmalıdır...</p>
+            <div class="qv-alert">
+                <ion-icon name="alert-circle-outline"></ion-icon> Taze kozmetik ürünlerimiz stokta bekletilmez.
+            </div>
+            <a href="#" class="btn-checkout" style="margin-bottom: 0.8rem; background: var(--clr-topbar);" id="qv-shopier-btn" target="_blank">Hemen Sipariş Ver</a>
+            <button class="btn-add-cart" id="qv-add-btn">Sepete Ekle</button>
+        </div>
+    </div>
+
+    <div class="cart-drawer" id="cart-drawer">
+        <div class="cart-header">
+            <h3>Sepetim</h3>
+            <button class="cart-close-btn" id="cart-close-btn"><ion-icon name="close-outline"></ion-icon></button>
+        </div>
+        <div class="cart-body" id="cart-body"></div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Ara Toplam:</span>
+                <span id="cart-total-price">0 TL</span>
+            </div>
+            <a href="https://www.shopier.com/fokomersin" target="_blank" class="btn-checkout">Sepeti Onayla</a>
+        </div>
+    </div>
+    <!-- WhatsApp Canlı Destek Butonu -->
+    <div class="wa-float-wrapper" id="wa-float-wrapper">
+        <div class="wa-tooltip">Cilt Bakım Uzmanımıza Danışın 💬</div>
+        <a href="https://wa.me/905309744362?text=Merhaba,%20cildime%20uygun%20ürünler%20hakkında%20bilgi%20almak%20istiyorum" class="wa-float-btn" target="_blank" rel="noopener" aria-label="WhatsApp Canlı Destek">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" width="28" height="28">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+            </svg>
+        </a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Foko Doa Kozmetik | Doğal Güzellik</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <style id="announcement-bar-style">
+        .announcement-bar {
+            width: 100%;
+            background: linear-gradient(90deg, #1a1a1a 0%, #2c2c2c 50%, #1a1a1a 100%);
+            border-bottom: 1px solid rgba(194,169,121,0.3);
+            padding: 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 10000;
+            overflow: hidden;
+        }
+        .announcement-inner {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            padding: 0.5rem 2rem;
+            animation: marquee-fade 0.5s ease;
+        }
+        .announcement-inner p {
+            margin: 0;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.72rem;
+            font-weight: 500;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #c2a979;
+            white-space: nowrap;
+        }
+        .announcement-icon {
+            color: #c2a979;
+            font-size: 0.6rem;
+            opacity: 0.7;
+            flex-shrink: 0;
+        }
+        @keyframes marquee-fade {
+            from { opacity: 0; transform: translateY(-4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        /* Push body content down for the bar */
+        body {
+            padding-top: 36px !important;
+        }
+    </style>
+    <style id="wa-float-style">
+        .wa-float-wrapper {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 9998;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            flex-direction: row;
+        }
+        .wa-float-btn {
+            width: 60px;
+            height: 60px;
+            background-color: #25D366;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 20px rgba(37,211,102,0.45), 0 2px 8px rgba(0,0,0,0.2);
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+            text-decoration: none;
+            flex-shrink: 0;
+            animation: wa-pulse 2.5s ease-in-out infinite;
+        }
+        .wa-float-btn:hover {
+            transform: scale(1.12);
+            box-shadow: 0 8px 32px rgba(37,211,102,0.6), 0 4px 12px rgba(0,0,0,0.25);
+        }
+        .wa-tooltip {
+            background: #1a1a1a;
+            color: #fff;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 500;
+            padding: 0.55rem 1rem;
+            border-radius: 8px;
+            white-space: nowrap;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+            opacity: 0;
+            transform: translateX(8px);
+            pointer-events: none;
+            transition: opacity 0.2s ease, transform 0.2s ease;
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+        .wa-tooltip::after {
+            content: '';
+            position: absolute;
+            right: -6px;
+            top: 50%;
+            transform: translateY(-50%);
+            border-width: 6px 0 6px 6px;
+            border-style: solid;
+            border-color: transparent transparent transparent #1a1a1a;
+        }
+        .wa-tooltip { position: relative; }
+        .wa-float-wrapper:hover .wa-tooltip {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        @keyframes wa-pulse {
+            0%, 100% { box-shadow: 0 4px 20px rgba(37,211,102,0.45), 0 2px 8px rgba(0,0,0,0.2); }
+            50% { box-shadow: 0 4px 30px rgba(37,211,102,0.75), 0 2px 8px rgba(0,0,0,0.2); }
+        }
+        @media (max-width: 480px) {
+            .wa-float-wrapper { bottom: 1.2rem; right: 1.2rem; }
+            .wa-tooltip { display: none; }
+        }
+    </style>
+    <style id="nav-dropdown-style">
+        .nav-dropdown { position: relative; }
+        .nav-dropdown-toggle { cursor: pointer; }
+        .nav-submenu {
+            display: none;
+            position: absolute;
+            top: calc(100% + 0.5rem);
+            left: 0;
+            background: #1a1a1a;
+            border: 1px solid rgba(194,169,121,0.2);
+            border-radius: 12px;
+            padding: 0.5rem 0;
+            min-width: 210px;
+            z-index: 9999;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+            list-style: none;
+        }
+        .nav-dropdown:hover .nav-submenu { display: block; animation: dropFade 0.2s ease; }
+        @keyframes dropFade { from{opacity:0;transform:translateY(-6px)} to{opacity:1;transform:translateY(0)} }
+        .nav-submenu li a {
+            display: block;
+            padding: 0.55rem 1.2rem;
+            font-family: "Montserrat", sans-serif;
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.75);
+            text-decoration: none;
+            transition: color 0.2s, background 0.2s;
+        }
+        .nav-submenu li a:hover { color: #c2a979; background: rgba(194,169,121,0.07); }
+    </style>
+</head>
+<body>
+    <!-- Duyuru Çubuğu -->
+    <div class="announcement-bar" id="announcement-bar">
+        <div class="announcement-inner">
+            <span class="announcement-icon">✦</span>
+            <p>Doa Kozmetik Mersin Yetkili Satış Noktası &nbsp;—&nbsp; %100 Orijinal Ürün Garantisi</p>
+            <span class="announcement-icon">✦</span>
+        </div>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="#" class="brand-logo">
+                <span class="brand-doa">Foko Doa</span>
+                <span class="brand-subtitle">KOZMETİK</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="#home">Anasayfa</a></li>
+                <li><a href="hakkimizda.html">Biz Kimiz</a></li>
+                <li class="nav-dropdown">
+                    <a href="urunler.html?category=cilt" class="nav-dropdown-toggle">Taze Cilt Bakımı ▾</a>
+                    <ul class="nav-submenu">
+                        <li><a href="urunler.html?category=cilt">Cilt Bakım Serumları</a></li>
+                        <li><a href="urunler.html?category=krem">Nemlendiriciler</a></li>
+                        <li><a href="urunler.html?category=serum">Vitamin Serumları</a></li>
+                        <li><a href="urunler.html?category=asit">Asit &amp; Peeling</a></li>
+                        <li><a href="urunler.html?category=gunes">Güneş Bakımı</a></li>
+                        <li><a href="urunler.html?category=sac">Saç Bakımı</a></li>
+                    </ul>
+                </li>
+                <li class="nav-dropdown">
+                    <a href="urunler.html?category=parfum" class="nav-dropdown-toggle">Parfüm Koleksiyonu ▾</a>
+                    <ul class="nav-submenu">
+                        <li><a href="urunler.html?category=parfum">İmza Parfümler (Kadın)</a></li>
+                        <li><a href="urunler.html?category=erkek-parfum">İmza Parfümler (Erkek)</a></li>
+                        <li><a href="urunler.html?category=muadil">İlham Veren Kokular</a></li>
+                        <li><a href="koku-danismani.html">Koku Danışmanı 🤖</a></li>
+                    </ul>
+                </li>
+                <li><a href="blog.html">Cilt Rehberi</a></li>
+                <li><a href="analiz.html" class="nav-special-btn">AI TEST</a></li>
+            </ul>
+            <div class="nav-icons">
+                <a href="https://www.shopier.com/fokomersin" target="_blank" class="nav-icon-btn" title="Ara">
+                    <ion-icon name="search-outline"></ion-icon>
+                </a>
+                <a href="https://www.shopier.com/focuserlogin" target="_blank" class="nav-icon-btn" title="Hesabım">
+                    <ion-icon name="person-outline"></ion-icon>
+                </a>
+                <a href="https://www.shopier.com/fokomersin" target="_blank" class="nav-icon-btn" title="Favoriler">
+                    <ion-icon name="heart-outline"></ion-icon>
+                </a>
+                <a href="#" class="nav-icon-btn nav-icon-cart" id="nav-cart-btn" title="Sepetim">
+                    <ion-icon name="bag-outline"></ion-icon>
+                    <span class="cart-badge" id="cart-badge">0</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">Doğadan Gelen Güzellik</div>
+            <h1 class="hero-title">Saf, Temiz ve<br>Canlı Bir Cilt.</h1>
+            <p class="hero-desc">İçeriğini bildiğiniz, doğanın gücünü arkanıza aldığınız Doa Kozmetik ürünlerine  ulaşın. Kendinize en saf bakımı armağan edin.</p>
+            <a href="urunler.html" class="btn btn-primary">Ürünleri Keşfet</a>
+        </div>
+        <div class="hero-image-container">
+            <!-- Custom image for premium natural vibe -->
+            <img src="doa-hero.png" alt="Doa Kozmetik" class="hero-img">
+        </div>
+    </section>
+
+    <!-- Marquee Banner -->
+    <div class="marquee">
+        <div class="marquee-content">
+            <span>Doğal İçerikler</span> • <span>Tüm Türkiye'ye Hızlı Kargo</span> • <span>Shopier Güvencesi</span> • <span>Hayvanlar Üzerinde Test Edilmez</span> • <span>Bitkisel Formüller</span> • 
+            <span>Doğal İçerikler</span> • <span>Tüm Türkiye'ye Hızlı Kargo</span> • <span>Shopier Güvencesi</span> • <span>Hayvanlar Üzerinde Test Edilmez</span> • <span>Bitkisel Formüller</span>
+        </div>
+    </div>
+
+    <!-- ═══ TAZE CİLT BAKIMI VİTRİNİ ════════════════════════════════════ -->
+    <section id="cilt-bakimi" style="padding: 5rem 2rem; background: linear-gradient(160deg, #f0f7f1 0%, #e8f5eb 50%, #f5faf6 100%);">
+        <style>
+            .cilt-section-badge { display:inline-flex;align-items:center;gap:0.5rem;background:rgba(56,142,60,0.1);border:1px solid rgba(56,142,60,0.25);border-radius:50px;padding:0.35rem 1.1rem;margin-bottom:1rem;font-family:"Montserrat",sans-serif;font-size:0.7rem;color:#388e3c;letter-spacing:2px;text-transform:uppercase;font-weight:600; }
+            .cilt-grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:1.2rem;margin-top:2.5rem; }
+            .cilt-card { background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 4px 20px rgba(56,142,60,0.08);border:1px solid rgba(56,142,60,0.1);transition:transform 0.25s,box-shadow 0.25s; }
+            .cilt-card:hover { transform:translateY(-5px);box-shadow:0 10px 36px rgba(56,142,60,0.15); }
+            .cilt-card img { width:100%;aspect-ratio:1;object-fit:cover;background:#f0f7f1; }
+            .cilt-card-body { padding:0.9rem; }
+            .cilt-card-name { font-family:"Montserrat",sans-serif;font-size:0.76rem;font-weight:600;color:#1a1a1a;line-height:1.4;margin-bottom:0.3rem; }
+            .cilt-card-price { font-family:"Montserrat",sans-serif;font-size:0.9rem;font-weight:700;color:#388e3c;margin-bottom:0.7rem; }
+            .cilt-card-btn { display:block;text-align:center;padding:0.55rem;background:linear-gradient(135deg,#388e3c,#2e7d32);color:#fff;border-radius:8px;font-family:"Montserrat",sans-serif;font-size:0.7rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;text-decoration:none;transition:opacity 0.2s; }
+            .cilt-card-btn:hover { opacity:0.85; }
+            @media(max-width:540px){.cilt-grid{grid-template-columns:1fr 1fr;}}
+        </style>
+        <div style="text-align:center;">
+            <span class="cilt-section-badge">🌿 Taze Kozmetik</span>
+            <h2 class="section-title" style="font-size:2.5rem;">Taze Cilt Bakım Ürünlerimiz</h2>
+            <p class="section-subtitle">Sipariş üzerine üretilen, aktif maddeleri tam güçte, %100 orijinal Doa ürünleri.</p>
+        </div>
+        <div class="cilt-grid" id="ciltGrid">
+            <!-- JS ile doldurulacak -->
+        </div>
+        <div style="text-align:center;margin-top:2.5rem;">
+            <a href="urunler.html?category=cilt" class="btn btn-outline" style="border-color:#388e3c;color:#388e3c;margin-right:1rem;">Tüm Cilt Ürünleri →</a>
+            <a href="analiz.html" style="display:inline-flex;align-items:center;gap:0.5rem;padding:0.85rem 2rem;background:linear-gradient(135deg,#388e3c,#2e7d32);color:white;border-radius:50px;font-family:'Montserrat',sans-serif;font-size:0.8rem;font-weight:700;letter-spacing:1px;text-decoration:none;">🤖 AI Cilt Testini Yap</a>
+        </div>
+        <script>
+        function renderCiltGrid(){
+            var cats=['cilt','serum','krem','asit','temizleyici','gunes'];
+            if(typeof products==='undefined') return;
+            var grid=document.getElementById('ciltGrid');
+            if(!grid) return;
+            var picked=[];
+            cats.forEach(function(cat){
+                products.filter(function(p){return p.category===cat;}).slice(0,2).forEach(function(p){if(picked.length<12)picked.push(p);});
+            });
+            grid.innerHTML=picked.map(function(p){
+                return '<div class="cilt-card"><img src="'+p.image+'" alt="'+p.name+'" loading="lazy"><div class="cilt-card-body"><div class="cilt-card-name">'+p.name+'</div><div class="cilt-card-price">'+p.price+'</div><a href="'+p.link+'" target="_blank" class="cilt-card-btn">&#128722; Sepete Ekle</a></div></div>';
+            }).join('');
+        }
+        window.addEventListener('load', renderCiltGrid);
+        </script>
+    </section>
+
+    <!-- ═══ PARFÜM KOLEKSİYONU (Bağımsız Koyu Blok) ════════════════════ -->
+    <section id="parfum-koleksiyonu" style="padding:5rem 2rem;background:linear-gradient(135deg,#12100e 0%,#1e1b16 50%,#12100e 100%);position:relative;overflow:hidden;">
+        <style>
+            .parfum-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:2.5rem; }
+            .parfum-cat-card { border-radius:20px;overflow:hidden;position:relative;cursor:pointer;transition:transform 0.3s; display:block; text-decoration:none; }
+            .parfum-cat-card:hover { transform:scale(1.03); }
+            .parfum-cat-card img { width:100%;height:240px;object-fit:cover;display:block; }
+            .parfum-cat-overlay { position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.82) 0%,rgba(0,0,0,0.1) 60%);display:flex;flex-direction:column;justify-content:flex-end;padding:1.5rem; }
+            .parfum-cat-tag { font-family:"Montserrat",sans-serif;font-size:0.65rem;color:#c2a979;letter-spacing:2px;text-transform:uppercase;margin-bottom:0.4rem; }
+            .parfum-cat-name { font-family:"Cormorant Garamond",serif;font-size:1.5rem;color:white;font-weight:600;line-height:1.2;margin-bottom:0.5rem; }
+            .parfum-cat-desc { font-family:"Montserrat",sans-serif;font-size:0.75rem;color:rgba(255,255,255,0.6);line-height:1.5; }
+            @media(max-width:700px){.parfum-grid{grid-template-columns:1fr;}}
+            @media(max-width:900px) and (min-width:701px){.parfum-grid{grid-template-columns:1fr 1fr;}}
+        </style>
+        <!-- Dekoratif arka plan yazısı -->
+        <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:'Cormorant Garamond',serif;font-size:18rem;color:rgba(194,169,121,0.03);pointer-events:none;line-height:1;white-space:nowrap;">PARFÜM</div>
+        <div style="text-align:center;position:relative;">
+            <span style="display:inline-flex;align-items:center;gap:0.5rem;background:rgba(194,169,121,0.1);border:1px solid rgba(194,169,121,0.3);border-radius:50px;padding:0.35rem 1.1rem;margin-bottom:1rem;font-family:'Montserrat',sans-serif;font-size:0.7rem;color:#c2a979;letter-spacing:2px;text-transform:uppercase;font-weight:600;">✦ Parfüm Koleksiyonu</span>
+            <h2 class="section-title" style="color:white;font-size:2.5rem;">Koku Dünyamız</h2>
+            <p class="section-subtitle" style="color:rgba(255,255,255,0.45);">Teninize imza atacak eşsiz, kalıcı parfüm koleksiyonlarımız. Üç farklı dünya, tek mağaza.</p>
+        </div>
+        <div class="parfum-grid" style="position:relative;">
+            <a href="urunler.html?category=parfum" class="parfum-cat-card">
+                <img src="cover-parfum.png" alt="İmza Parfümler Kadın">
+                <div class="parfum-cat-overlay">
+                    <div class="parfum-cat-tag">Kadın Koleksiyonu</div>
+                    <div class="parfum-cat-name">İmza Parfümler</div>
+                    <div class="parfum-cat-desc">Doa'nın özgün formülasyonuyla harmanlanmış kalıcı kadın kokuları.</div>
+                </div>
+            </a>
+            <a href="urunler.html?category=erkek-parfum" class="parfum-cat-card">
+                <img src="cover-erkek.png" alt="Erkek Parfümleri" onerror="this.src='cover-parfum.png'">
+                <div class="parfum-cat-overlay">
+                    <div class="parfum-cat-tag">Erkek Koleksiyonu</div>
+                    <div class="parfum-cat-name">Erkek Parfümleri</div>
+                    <div class="parfum-cat-desc">Güçlü, özgün ve kalıcı maskülen kokular. Kendinizi ifade edin.</div>
+                </div>
+            </a>
+            <a href="urunler.html?category=muadil" class="parfum-cat-card">
+                <img src="cover-muadil.png" alt="İlham Veren Kokular">
+                <div class="parfum-cat-overlay">
+                    <div class="parfum-cat-tag">Lüks İlhamı</div>
+                    <div class="parfum-cat-name">İlham Veren Kokular</div>
+                    <div class="parfum-cat-desc">Dünyanın en prestijli parfümlerinden ilham alınan, erişilebilir fiyatlarla premium koku deneyimi.</div>
+                </div>
+            </a>
+        </div>
+        <div style="text-align:center;margin-top:2.5rem;position:relative;">
+            <a href="urunler.html?category=parfum" style="display:inline-flex;align-items:center;gap:0.5rem;padding:0.85rem 2.5rem;background:linear-gradient(135deg,#c2a979,#a8894f);color:white;border-radius:50px;font-family:'Montserrat',sans-serif;font-size:0.8rem;font-weight:700;letter-spacing:1.5px;text-decoration:none;text-transform:uppercase;margin-right:1rem;">Tüm Parfümleri Keşfet →</a>
+            <a href="koku-danismani.html" style="display:inline-flex;align-items:center;gap:0.5rem;padding:0.85rem 2rem;background:transparent;border:1px solid rgba(194,169,121,0.4);color:#c2a979;border-radius:50px;font-family:'Montserrat',sans-serif;font-size:0.8rem;font-weight:600;text-decoration:none;">🤖 Koku Danışmanı</a>
+        </div>
+    </section>
+
+    <!-- Müşteri Yorumları Karuseli -->
+        <!-- Müşteri Değerlendirmeleri Carousel -->
+    <section class="reviews-section" id="reviews-section">
+        <style>
+            .reviews-section {
+                padding: 5rem 2rem;
+                background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 60%, #0f0f0f 100%);
+                position: relative;
+                overflow: hidden;
+            }
+            .reviews-section::before {
+                content: "★";
+                position: absolute;
+                font-size: 20rem;
+                color: rgba(194,169,121,0.03);
+                top: -4rem;
+                right: -3rem;
+                pointer-events: none;
+                line-height: 1;
+            }
+            .reviews-header { text-align: center; margin-bottom: 3rem; }
+            .reviews-header .section-title { color: white; }
+            .reviews-header .section-subtitle { color: rgba(255,255,255,0.5); }
+            .reviews-stats {
+                display: flex;
+                justify-content: center;
+                gap: 3rem;
+                margin-bottom: 3rem;
+                flex-wrap: wrap;
+            }
+            .reviews-stat { text-align: center; }
+            .reviews-stat .stat-num { font-family: "Cormorant Garamond", serif; font-size: 2.5rem; font-weight: 700; color: #c2a979; display: block; }
+            .reviews-stat .stat-stars { color: #f5c518; font-size: 1rem; letter-spacing: 2px; }
+            .reviews-stat .stat-label { color: rgba(255,255,255,0.45); font-size: 0.75rem; font-family: "Montserrat", sans-serif; letter-spacing: 1px; text-transform: uppercase; margin-top: 0.2rem; display: block; }
+            .reviews-carousel-wrap { position: relative; max-width: 1200px; margin: 0 auto; }
+            .reviews-track-outer { overflow: hidden; border-radius: 16px; }
+            .reviews-track { display: flex; gap: 1.5rem; transition: transform 0.45s cubic-bezier(0.25,0.8,0.25,1); will-change: transform; }
+            .review-card {
+                background: rgba(255,255,255,0.04);
+                border: 1px solid rgba(194,169,121,0.15);
+                border-radius: 16px;
+                padding: 2rem;
+                min-width: calc(33.333% - 1rem);
+                flex-shrink: 0;
+                display: flex;
+                flex-direction: column;
+                gap: 1rem;
+                transition: border-color 0.3s, background 0.3s;
+                backdrop-filter: blur(4px);
+            }
+            .review-card:hover { border-color: rgba(194,169,121,0.45); background: rgba(255,255,255,0.07); }
+            .review-stars { color: #f5c518; font-size: 1.2rem; letter-spacing: 3px; }
+            .review-badge { display: inline-flex; align-items: center; gap: 0.3rem; background: rgba(194,169,121,0.12); border: 1px solid rgba(194,169,121,0.25); border-radius: 50px; padding: 0.2rem 0.7rem; font-size: 0.68rem; color: #c2a979; font-family: "Montserrat", sans-serif; letter-spacing: 1px; text-transform: uppercase; align-self: flex-start; }
+            .review-text { color: rgba(255,255,255,0.78); font-size: 0.95rem; line-height: 1.7; font-style: italic; flex: 1; }
+            .review-footer { display: flex; align-items: center; gap: 0.8rem; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 1rem; margin-top: auto; }
+            .review-avatar { width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, #c2a979, #7a6040); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1rem; color: white; flex-shrink: 0; font-family: "Montserrat", sans-serif; }
+            .review-name { color: white; font-weight: 600; font-size: 0.88rem; font-family: "Montserrat", sans-serif; }
+            .review-date { color: rgba(255,255,255,0.35); font-size: 0.75rem; font-family: "Montserrat", sans-serif; }
+            .reviews-nav { display: flex; justify-content: center; align-items: center; gap: 1rem; margin-top: 2.5rem; }
+            .reviews-nav-btn { width: 44px; height: 44px; border-radius: 50%; border: 1px solid rgba(194,169,121,0.4); background: transparent; color: #c2a979; font-size: 1.2rem; cursor: pointer; transition: all 0.25s; display: flex; align-items: center; justify-content: center; }
+            .reviews-nav-btn:hover { background: #c2a979; color: white; border-color: #c2a979; }
+            .reviews-dots { display: flex; gap: 0.5rem; align-items: center; }
+            .reviews-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(194,169,121,0.3); cursor: pointer; transition: all 0.3s; border: none; }
+            .reviews-dot.active { background: #c2a979; width: 24px; border-radius: 4px; }
+            @media (max-width: 900px) { .review-card { min-width: calc(50% - 0.75rem); } }
+            @media (max-width: 580px) { .review-card { min-width: 100%; } .reviews-stats { gap: 1.5rem; } }
+        </style>
+
+        <div class="reviews-header">
+            <h2 class="section-title">Müşteri Değerlendirmeleri</h2>
+            <p class="section-subtitle">Gerçek müşterilerimizin gerçek deneyimleri.</p>
+        </div>
+
+        <div class="reviews-stats">
+            <div class="reviews-stat"><span class="stat-num">4.9</span><span class="stat-stars">★★★★★</span><span class="stat-label">Ortalama Puan</span></div>
+            <div class="reviews-stat"><span class="stat-num">200+</span><span class="stat-stars">✦ ✦ ✦</span><span class="stat-label">Mutlu Müşteri</span></div>
+            <div class="reviews-stat"><span class="stat-num">%98</span><span class="stat-stars">✦ ✦ ✦</span><span class="stat-label">Tekrar Alış Oranı</span></div>
+        </div>
+
+        <div class="reviews-carousel-wrap">
+            <div class="reviews-track-outer" id="reviewsTrackOuter">
+                <div class="reviews-track" id="reviewsTrack">
+
+                    <div class="review-card">
+                        <span class="review-badge">&#10004; Doğrulanmış Alıcı</span>
+                        <div class="review-stars">★★★★★</div>
+                        <p class="review-text">"Retinal kremini buzdolabından çıkarıp yüzüme sürmek bambaşka bir his. İlk haftada farkı gördüm, cildim pürüzsüzleşti. Taze kozmetik dediğin bu işte!"</p>
+                        <div class="review-footer">
+                            <div class="review-avatar">A</div>
+                            <div><div class="review-name">Ayşe Y.</div><div class="review-date">Retinal Krem — 1 Aylık Kullanıcı</div></div>
+                        </div>
+                    </div>
+
+                    <div class="review-card">
+                        <span class="review-badge">&#10004; Doğrulanmış Alıcı</span>
+                        <div class="review-stars">★★★★★</div>
+                        <p class="review-text">"Parfümlerin kalıcılığına bayıldım. Muadil olduğunu kimse anlamıyor. Paketleme de son derece zarif geldi, hediye gibi kutuluydu."</p>
+                        <div class="review-footer">
+                            <div class="review-avatar">M</div>
+                            <div><div class="review-name">Merve N.</div><div class="review-date">Muadil Parfüm Koleksiyonu</div></div>
+                        </div>
+                    </div>
+
+                    <div class="review-card">
+                        <span class="review-badge">&#10004; Doğrulanmış Alıcı</span>
+                        <div class="review-stars">★★★★★</div>
+                        <p class="review-text">"C vitamini serumunun bembeyaz haliyle gelmesi beni etkiledi. Doa farkını cildimde hissettim; lekelerim açıldı, tenin parlaklığı arttı."</p>
+                        <div class="review-footer">
+                            <div class="review-avatar">G</div>
+                            <div><div class="review-name">Gülçin K.</div><div class="review-date">L-Ascorbic Acid Serum %10</div></div>
+                        </div>
+                    </div>
+
+                    <div class="review-card">
+                        <span class="review-badge">&#10004; Doğrulanmış Alıcı</span>
+                        <div class="review-stars">★★★★★</div>
+                        <p class="review-text">"Molecules saç serumunu kullandıktan sonra dökülmem belirgin şekilde azaldı. Artık tüm bakımımı Foko Doa'dan alıyorum, rakipsiz fiyat-kalite dengesi var."</p>
+                        <div class="review-footer">
+                            <div class="review-avatar">S</div>
+                            <div><div class="review-name">Selim T.</div><div class="review-date">Molecules Saç Serumu — Düzenli Müşteri</div></div>
+                        </div>
+                    </div>
+
+                    <div class="review-card">
+                        <span class="review-badge">&#10004; Doğrulanmış Alıcı</span>
+                        <div class="review-stars">★★★★★</div>
+                        <p class="review-text">"Niacinamide serumunu Nisan'da almaya başladım. Yağlı T bölgem iyice düzeldi, gözeneklerim küçüldü. Bu fiyata bu kaliteyi başka yerde bulamazsınız."</p>
+                        <div class="review-footer">
+                            <div class="review-avatar">Z</div>
+                            <div><div class="review-name">Zeynep A.</div><div class="review-date">Niacinamide Serum</div></div>
+                        </div>
+                    </div>
+
+                    <div class="review-card">
+                        <span class="review-badge">&#10004; Doğrulanmış Alıcı</span>
+                        <div class="review-stars">★★★★★</div>
+                        <p class="review-text">"Güneş kreminin yapısı çok hafif, makyaj altında mükemmel oturuyor. SPF 50 ile bu kadar rahat bir dokunuş beklemiyordum. Artık her yaz için favorim!"</p>
+                        <div class="review-footer">
+                            <div class="review-avatar">F</div>
+                            <div><div class="review-name">Fatma Ö.</div><div class="review-date">Güneş Kremi SPF 50 Hibrit</div></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="reviews-nav">
+                <button class="reviews-nav-btn" id="reviewsPrev" aria-label="Önceki">&#8249;</button>
+                <div class="reviews-dots" id="reviewsDots"></div>
+                <button class="reviews-nav-btn" id="reviewsNext" aria-label="Sonraki">&#8250;</button>
+            </div>
+        </div>
+
+        <script>
+        (function(){
+            var track = document.getElementById("reviewsTrack");
+            var outer = document.getElementById("reviewsTrackOuter");
+            var prevBtn = document.getElementById("reviewsPrev");
+            var nextBtn = document.getElementById("reviewsNext");
+            var dotsContainer = document.getElementById("reviewsDots");
+            var cards = track.querySelectorAll(".review-card");
+            var perView = window.innerWidth < 580 ? 1 : window.innerWidth < 900 ? 2 : 3;
+            var current = 0;
+            var total = Math.ceil(cards.length / perView);
+            for(var i=0;i<total;i++){
+                var d=document.createElement("button");
+                d.className="reviews-dot"+(i===0?" active":"");
+                (function(idx){d.addEventListener("click",function(){goTo(idx);});})(i);
+                dotsContainer.appendChild(d);
+            }
+            function goTo(idx){
+                current=Math.max(0,Math.min(idx,total-1));
+                var cardW=cards[0].getBoundingClientRect().width;
+                var gap=24;
+                track.style.transform="translateX(-"+(current*perView*(cardW+gap))+"px)";
+                dotsContainer.querySelectorAll(".reviews-dot").forEach(function(d,i){d.classList.toggle("active",i===current);});
+            }
+            prevBtn.addEventListener("click",function(){goTo(current-1);});
+            nextBtn.addEventListener("click",function(){goTo(current<total-1?current+1:0);});
+            var timer=setInterval(function(){goTo(current<total-1?current+1:0);},4500);
+            outer.addEventListener("mouseenter",function(){clearInterval(timer);});
+            outer.addEventListener("mouseleave",function(){timer=setInterval(function(){goTo(current<total-1?current+1:0);},4500);});
+            window.addEventListener("resize",function(){var np=window.innerWidth<580?1:window.innerWidth<900?2:3;if(np!==perView){perView=np;current=0;goTo(0);}});
+        })();
+        </script>
+    </section>
+
+    <!-- Blog Showcase Section -->
+    <section id="blog-showcase" class="blog-showcase">
+        <div class="filter-container">
+            <h2 class="section-title" style="font-size: 2.5rem;">Cilt Güzelliği Rehberi</h2>
+            <p class="section-subtitle">Doğru bakım için uzman makalelerimiz.</p>
+        </div>
+        <div class="blog-grid container-store max-w-[1400px] mx-auto px-8">
+            <div class="blog-card">
+                <img src="https://cdn.shopier.app/pictures_mid/fokomersin_f695442d39b8c1e17777c7a440c65f73.jpeg" alt="Kuru Cilt">
+                <div class="blog-card-content">
+                    <span class="blog-tag">Cilt Tipi</span>
+                    <h3>Kuru Cilt Bakımı ve Nemlendirici İpuçları</h3>
+                    <p>Kuru bir cilde sahipseniz, Foko Doa ürünleriyle cildinizi nasıl neme doyuracağınızı öğrenin.</p>
+                    <a href="blog.html#kuru-cilt" class="link-arrow">Devamını Oku <ion-icon name="arrow-forward-outline"></ion-icon></a>
+                </div>
+            </div>
+            <div class="blog-card">
+                <img src="https://cdn.shopier.app/pictures_mid/fokomersin_743171553de1bbb798d872dcddf9a421.jpeg" alt="Yağlı Cilt">
+                <div class="blog-card-content">
+                    <span class="blog-tag">Sivilce & Akne</span>
+                    <h3>Yağlı Cilt Bakımı: Sivilce ile Mücadele</h3>
+                    <p>Fazla sebum üretimi ve Niacinamide'in gücü. Sivilce seti kullanım rehberi.</p>
+                    <a href="blog.html#yagli-cilt" class="link-arrow">Devamını Oku <ion-icon name="arrow-forward-outline"></ion-icon></a>
+                </div>
+            </div>
+            <div class="blog-card">
+                <img src="https://cdn.shopier.app/pictures_mid/fokomersin_bd799c8d064e2f4e05d05b7775d0ea69.jpeg" alt="Cilt Bariyeri">
+                <div class="blog-card-content">
+                    <span class="blog-tag">Onarım</span>
+                    <h3>Cilt Bariyeri Nasıl Güçlendirilir?</h3>
+                    <p>Zarar görmüş cilt bariyeri belirtileri ve Centella Asiatica'nın onarıcı mucizesi.</p>
+                    <a href="blog.html#cilt-bariyeri" class="link-arrow">Devamını Oku <ion-icon name="arrow-forward-outline"></ion-icon></a>
+                </div>
+            </div>
+        </div>
+        <div style="text-align: center; margin-top: 3rem;">
+            <a href="blog.html" class="btn btn-outline" style="border-color: var(--clr-primary); color: var(--clr-primary);">Tüm Makaleleri Gör</a>
+        </div>
+    </section>
+
+    <!-- Trust Badges -->
+    <section class="trust-section">
+        <div class="trust-grid">
+            <div class="trust-item">
+                <ion-icon name="snow-outline"></ion-icon>
+                <h3>Taze Üretim</h3>
+                <p>Küçük partilerle üretilir, aktifler en taze halleriyle ulaşır.</p>
+            </div>
+            <div class="trust-item">
+                <ion-icon name="flask-outline"></ion-icon>
+                <h3>Güçlü Aktifler</h3>
+                <p>Retinal, L-Ascorbic Acid, Niacinamide — saf ve etkili formüller.</p>
+            </div>
+            <div class="trust-item">
+                <ion-icon name="shield-checkmark-outline"></ion-icon>
+                <h3>Güvenli Alışveriş</h3>
+                <p>Shopier altyapısıyla güvenli ödeme ve hızlı kargo.</p>
+            </div>
+        </div>
+    </section>
+
+        <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <h3>Foko Doa Kozmetik</h3>
+                <p>Siz de doğanın iyileştirici gücüyle tanışın. Cilt ve saç bakımınız için aradığınız kalite.</p>
+                <div class="social-links" style="display: flex; gap: 1.5rem; margin-top: 1.5rem;">
+                    <a href="https://instagram.com/fokomersin" target="_blank" style="color: white; font-size: 1.8rem;"><ion-icon name="logo-instagram"></ion-icon></a>
+                    <a href="https://x.com/fokomersin" target="_blank" style="color: white; font-size: 1.8rem;"><ion-icon name="logo-twitter"></ion-icon></a>
+                </div>
+            </div>
+            
+            <div class="footer-contact">
+                <h4>İletişim & Adres</h4>
+                <p style="display: flex; align-items: start; gap: 0.5rem; margin-bottom: 1rem;">
+                    <ion-icon name="location-outline" style="font-size: 1.2rem; flex-shrink: 0; margin-top: 3px;"></ion-icon>
+                    <span>Bahçelievler Mah., 1803. Sok., Fatih Apt. Sitesi, No: 6/A <br>Yenişehir / Mersin</span>
+                </p>
+                <p style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.8rem;">
+                    <ion-icon name="call-outline" style="font-size: 1.2rem;"></ion-icon>
+                    <a href="tel:05309744362" style="color: rgba(255,255,255,0.7);">0 530 974 43 62</a>
+                </p>
+                <p style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1.5rem;">
+                    <ion-icon name="mail-outline" style="font-size: 1.2rem;"></ion-icon>
+                    <a href="mailto:info@fokodoakozmetik.com" style="color: rgba(255,255,255,0.7);">info@fokodoakozmetik.com</a>
+                </p>
+                
+                <!-- Google Maps Embed -->
+                <div style="border-radius: 8px; overflow: hidden; max-width: 300px; height: 150px;">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3192.6844962921503!2d34.5936!3d36.7906!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzbCsDQ3JzI2LjIiTiAzNMKwMzUnMzcuMCJF!5e0!3m2!1str!2str!4v1700000000000!5m2!1str!2str" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+            </div>
+            
+            <div class="footer-links">
+                <h4>Hızlı Bağlantılar</h4>
+                <ul>
+                    <li><a href="index.html">Anasayfa</a></li>
+                    <li><a href="hakkimizda.html">Biz Kimiz</a></li>
+                    <li><a href="urunler.html">Koleksiyon</a></li>
+                    <li><a href="blog.html">Cilt Rehberi & Blog</a></li>
+                </ul>
+                <a href="https://www.shopier.com/fokomersin" target="_blank" class="btn btn-outline" style="margin-top: 1.5rem; display: inline-block;">Shopier'den Satın Al</a>
+            </div>
+
+            <div class="footer-links">
+                <h4>Müşteri Hizmetleri</h4>
+                <ul>
+                    <li><a href="mesafeli-satis-sozlesmesi.html">Mesafeli Satış Sözleşmesi</a></li>
+                    <li><a href="iptal-iade-kosullari.html">İptal ve İade Koşulları</a></li>
+                    <li><a href="kvkk-aydinlatma-metni.html">KVKK Aydınlatma Metni</a></li>
+                    <li><a href="gizlilik-cerez-politikasi.html">Gizlilik / Çerez Politikası</a></li>
+                </ul>
+                <div style="margin-top: 1.5rem; opacity: 0.6;">
+                    <ion-icon name="shield-checkmark-outline" style="font-size: 2rem; color: white;"></ion-icon>
+                    <p style="font-size: 0.8rem; margin-top: 0.5rem; color: white;">%100 Güvenli Alışveriş</p>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Foko Doa Kozmetik. Tüm hakları saklıdır.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+
+    <!-- YENI EKLENEN UI BILESENLERI -->
+    <div class="ui-overlay" id="ui-overlay"></div>
+
+    <div class="quick-view-modal" id="quick-view-modal">
+        <button class="qv-close-btn" id="qv-close-btn"><ion-icon name="close-outline"></ion-icon></button>
+        <div class="qv-img-container">
+            <img src="" alt="Ürün" class="qv-img" id="qv-img">
+        </div>
+        <div class="qv-content">
+            <span class="qv-cat" id="qv-cat">Kategori</span>
+            <h3 class="qv-title" id="qv-title">Ürün Adı</h3>
+            <div class="qv-price" id="qv-price">Fiyat</div>
+            <p class="qv-desc" id="qv-desc">Buzdolabında saklanmalıdır...</p>
+            <div class="qv-alert">
+                <ion-icon name="alert-circle-outline"></ion-icon> Taze kozmetik ürünlerimiz stokta bekletilmez.
+            </div>
+            <a href="#" class="btn-checkout" style="margin-bottom: 0.8rem; background: var(--clr-topbar);" id="qv-shopier-btn" target="_blank">Hemen Sipariş Ver</a>
+            <button class="btn-add-cart" id="qv-add-btn">Sepete Ekle</button>
+        </div>
+    </div>
+
+    <div class="cart-drawer" id="cart-drawer">
+        <div class="cart-header">
+            <h3>Sepetim</h3>
+            <button class="cart-close-btn" id="cart-close-btn"><ion-icon name="close-outline"></ion-icon></button>
+        </div>
+        <div class="cart-body" id="cart-body"></div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Ara Toplam:</span>
+                <span id="cart-total-price">0 TL</span>
+            </div>
+            <a href="https://www.shopier.com/fokomersin" target="_blank" class="btn-checkout">Sepeti Onayla</a>
+        </div>
+    </div>
+    <!-- WhatsApp Canlı Destek Butonu -->
+    <div class="wa-float-wrapper" id="wa-float-wrapper">
+        <div class="wa-tooltip">Cilt Bakım Uzmanımıza Danışın 💬</div>
+        <a href="https://wa.me/905309744362?text=Merhaba,%20cildime%20uygun%20ürünler%20hakkında%20bilgi%20almak%20istiyorum" class="wa-float-btn" target="_blank" rel="noopener" aria-label="WhatsApp Canlı Destek">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" width="28" height="28">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+            </svg>
+        </a>
+    </div>
+</body>
+</html>
