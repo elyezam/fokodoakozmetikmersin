@@ -1351,3 +1351,50 @@ document.addEventListener("DOMContentLoaded", () => {
 
     updateCartBadge(); // init on load
 });
+
+/* =========================================
+   MOBİL NAV DROPDOWN TOUCH DESTEĞİ
+   ========================================= */
+(function() {
+    function isTouchDevice() {
+        return ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+    }
+
+    if (!isTouchDevice()) return;
+
+    const dropdowns = document.querySelectorAll('.nav-dropdown');
+
+    dropdowns.forEach(function(dropdown) {
+        const toggle = dropdown.querySelector('.nav-dropdown-toggle');
+        const submenu = dropdown.querySelector('.nav-submenu');
+
+        if (!toggle || !submenu) return;
+
+        toggle.addEventListener('click', function(e) {
+            const isOpen = submenu.style.display === 'block';
+
+            // Close all other open submenus
+            dropdowns.forEach(function(d) {
+                const s = d.querySelector('.nav-submenu');
+                if (s) s.style.display = 'none';
+            });
+
+            if (!isOpen) {
+                submenu.style.display = 'block';
+                e.preventDefault(); // Prevent navigating when opening menu
+            }
+            // If already open, it was just closed — let any link within handle navigation
+        });
+    });
+
+    // Close submenus when tapping outside the nav
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.nav-dropdown')) {
+            dropdowns.forEach(function(d) {
+                const s = d.querySelector('.nav-submenu');
+                if (s) s.style.display = 'none';
+            });
+        }
+    });
+})();
+
