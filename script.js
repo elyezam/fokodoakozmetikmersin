@@ -8,6 +8,31 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // --- HAMBURGEMENü ---
+    const hamburgerBtn = document.getElementById('hamburger-btn');
+    const navLinks = document.getElementById('nav-links');
+
+    if (hamburgerBtn && navLinks) {
+        hamburgerBtn.addEventListener('click', () => {
+            const isOpen = navLinks.classList.toggle('open');
+            hamburgerBtn.classList.toggle('open', isOpen);
+            hamburgerBtn.setAttribute('aria-expanded', isOpen);
+            // Arka plan kaydırmayı engelle
+            document.body.style.overflow = isOpen ? 'hidden' : '';
+        });
+
+        // Menüdeki herhangi bir linke tıklanınca kapat
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('open');
+                hamburgerBtn.classList.remove('open');
+                hamburgerBtn.setAttribute('aria-expanded', 'false');
+                document.body.style.overflow = '';
+            });
+        });
+    }
+
+
     const products = [
     {
         "id": 44547908,

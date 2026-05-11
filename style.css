@@ -717,7 +717,44 @@ img {
     margin-bottom: 2rem;
 }
 
-/* RESPONSIVE — Tablet (≤ 900px) */
+/* HAMBURGER BUTTON */
+.hamburger-btn {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 36px;
+    height: 36px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    flex-shrink: 0;
+    -webkit-tap-highlight-color: transparent;
+}
+.hamburger-btn span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background-color: var(--clr-text-dark);
+    border-radius: 2px;
+    transition: all 0.3s ease;
+    transform-origin: center;
+}
+/* Hamburger X animasyonu */
+.hamburger-btn.open span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+}
+.hamburger-btn.open span:nth-child(2) {
+    opacity: 0;
+    transform: scaleX(0);
+}
+.hamburger-btn.open span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+}
+.nav-hide-mobile { display: flex; }
+
+/* RESPONSIVE — Tablet ve Mobil (≤ 900px) */
 @media (max-width: 900px) {
     .hero {
         flex-direction: column;
@@ -750,26 +787,6 @@ img {
         grid-template-columns: 1fr;
         gap: 2rem;
     }
-    .nav-container {
-        flex-wrap: wrap;
-    }
-    .nav-links {
-        display: flex;
-        width: 100%;
-        order: 3;
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-        margin-top: 1rem;
-        gap: 1.5rem;
-        padding-bottom: 5px;
-        justify-content: flex-start;
-    }
-    .nav-links a {
-        white-space: nowrap;
-    }
-    .nav-links::-webkit-scrollbar {
-        display: none;
-    }
     .filter-tabs {
         border-bottom: 2px solid #eaeaea;
         justify-content: flex-start;
@@ -785,6 +802,66 @@ img {
     }
     .about-image::after {
         display: none;
+    }
+
+    /* --- MOBİL NAV --- */
+    .hamburger-btn {
+        display: flex;
+    }
+    .nav-hide-mobile {
+        display: none;
+    }
+    .nav-container {
+        flex-wrap: nowrap;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 1.2rem;
+    }
+    /* Nav linkleri varsayılan olarak gizli */
+    .nav-links {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        background: rgba(250, 248, 245, 0.98);
+        backdrop-filter: blur(16px);
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 1.5rem;
+        z-index: 999;
+        padding: 6rem 2rem 3rem;
+        overflow-y: auto;
+    }
+    /* Hamburger aktif olunca menü açılır */
+    .nav-links.open {
+        display: flex;
+    }
+    .nav-links a {
+        font-size: 1rem;
+        white-space: nowrap;
+        letter-spacing: 1.5px;
+    }
+    .nav-links li {
+        width: 100%;
+        text-align: center;
+    }
+    /* Mobilde dropdown alt menü */
+    .nav-submenu {
+        position: static !important;
+        background: rgba(0,0,0,0.04) !important;
+        border: none !important;
+        border-radius: 8px !important;
+        box-shadow: none !important;
+        min-width: auto !important;
+        padding: 0.5rem 0 !important;
+        margin-top: 0.5rem;
+    }
+    .nav-submenu li a {
+        color: var(--clr-text-muted) !important;
+        font-size: 0.85rem !important;
     }
 }
 
