@@ -423,7 +423,46 @@
             .reviews-dot:focus { outline: none; }
             .reviews-dot.active { background: #c2a979; width: 24px; border-radius: 4px; }
             @media (max-width: 900px) { .review-card { min-width: calc(50% - 0.75rem); } }
-            @media (max-width: 580px) { .review-card { min-width: 100%; } .reviews-stats { gap: 1.5rem; } }
+            /* MOBİL: JS carousel gizlenir, scroll-snap gösterilir */
+            @media (max-width: 640px) {
+                .reviews-section { padding: 3rem 0 !important; }
+                .reviews-carousel-wrap { overflow: visible !important; }
+                .reviews-track-outer { display: none !important; }
+                .reviews-nav { display: none !important; }
+                .reviews-snap-track {
+                    display: flex !important;
+                    overflow-x: scroll;
+                    scroll-snap-type: x mandatory;
+                    -webkit-overflow-scrolling: touch;
+                    scrollbar-width: none;
+                    -ms-overflow-style: none;
+                    padding: 0 1.2rem 1.2rem;
+                    gap: 1rem;
+                }
+                .reviews-snap-track::-webkit-scrollbar { display: none; }
+                .reviews-snap-track .review-card {
+                    scroll-snap-align: start;
+                    min-width: calc(100vw - 2.4rem) !important;
+                    max-width: calc(100vw - 2.4rem) !important;
+                    flex-shrink: 0;
+                }
+                .reviews-snap-hint { display: flex !important; }
+                .reviews-stats { gap: 1.5rem; padding: 0 1rem; }
+            }
+            /* Masaüstünde snap track gizli */
+            .reviews-snap-track { display: none; }
+            .reviews-snap-hint {
+                display: none;
+                text-align: center;
+                color: rgba(255,255,255,0.3);
+                font-size: 0.72rem;
+                font-family: "Montserrat", sans-serif;
+                letter-spacing: 1.5px;
+                text-transform: uppercase;
+                margin-top: 1rem;
+                justify-content: center;
+                align-items: center;
+            }
         </style>
 
         <div class="reviews-header">
@@ -510,6 +549,65 @@
                 <button class="reviews-nav-btn" id="reviewsNext" aria-label="Sonraki">&#8250;</button>
             </div>
         </div>
+
+        <!-- MOBİL: CSS Scroll-Snap Track -->
+        <div class="reviews-snap-track">
+            <div class="review-card">
+                <span class="review-badge">&#10004; Doğrulanmış Alıcı</span>
+                <div class="review-stars">★★★★★</div>
+                <p class="review-text">"Retinal kremini buzdolabından çıkarıp yüzüme sürmek bambaşka bir his. İlk haftada farkı gördüm, cildim pürüzsüzleşti. Taze kozmetik dediğin bu işte!"</p>
+                <div class="review-footer">
+                    <div class="review-avatar">A</div>
+                    <div><div class="review-name">Ayşe Y.</div><div class="review-date">Retinal Krem — 1 Aylık Kullanıcı</div></div>
+                </div>
+            </div>
+            <div class="review-card">
+                <span class="review-badge">&#10004; Doğrulanmış Alıcı</span>
+                <div class="review-stars">★★★★★</div>
+                <p class="review-text">"Parfümlerin kalıcılığına bayıldım. Muadil olduğunu kimse anlamıyor. Paketleme de son derece zarif geldi, hediye gibi kutuluydu."</p>
+                <div class="review-footer">
+                    <div class="review-avatar">M</div>
+                    <div><div class="review-name">Merve N.</div><div class="review-date">Muadil Parfüm Koleksiyonu</div></div>
+                </div>
+            </div>
+            <div class="review-card">
+                <span class="review-badge">&#10004; Doğrulanmış Alıcı</span>
+                <div class="review-stars">★★★★★</div>
+                <p class="review-text">"C vitamini serumunun bembeyaz haliyle gelmesi beni etkiledi. Doa farkını cildimde hissettim; lekelerim açıldı, tenin parlaklığı arttı."</p>
+                <div class="review-footer">
+                    <div class="review-avatar">G</div>
+                    <div><div class="review-name">Gülçin K.</div><div class="review-date">L-Ascorbic Acid Serum %10</div></div>
+                </div>
+            </div>
+            <div class="review-card">
+                <span class="review-badge">&#10004; Doğrulanmış Alıcı</span>
+                <div class="review-stars">★★★★★</div>
+                <p class="review-text">"Molecules saç serumunu kullandıktan sonra dökülmem belirgin şekilde azaldı. Artık tüm bakımımı Foko Doa'dan alıyorum, rakipsiz fiyat-kalite dengesi var."</p>
+                <div class="review-footer">
+                    <div class="review-avatar">S</div>
+                    <div><div class="review-name">Selim T.</div><div class="review-date">Molecules Saç Serumu — Düzenli Müşteri</div></div>
+                </div>
+            </div>
+            <div class="review-card">
+                <span class="review-badge">&#10004; Doğrulanmış Alıcı</span>
+                <div class="review-stars">★★★★★</div>
+                <p class="review-text">"Niacinamide serumunu Nisan'da almaya başladım. Yağlı T bölgem iyice düzeldi, gözeneklerim küçüldü. Bu fiyata bu kaliteyi başka yerde bulamazsınız."</p>
+                <div class="review-footer">
+                    <div class="review-avatar">Z</div>
+                    <div><div class="review-name">Zeynep A.</div><div class="review-date">Niacinamide Serum</div></div>
+                </div>
+            </div>
+            <div class="review-card">
+                <span class="review-badge">&#10004; Doğrulanmış Alıcı</span>
+                <div class="review-stars">★★★★★</div>
+                <p class="review-text">"Güneş kreminin yapısı çok hafif, makyaj altında mükemmel oturuyor. SPF 50 ile bu kadar rahat bir dokunuş beklemiyordum. Artık her yaz için favorim!"</p>
+                <div class="review-footer">
+                    <div class="review-avatar">F</div>
+                    <div><div class="review-name">Fatma Ö.</div><div class="review-date">Güneş Kremi SPF 50 Hibrit</div></div>
+                </div>
+            </div>
+        </div>
+        <div class="reviews-snap-hint">← kaydırın →</div>
 
         <script>
         (function(){
