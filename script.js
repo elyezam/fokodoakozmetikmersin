@@ -35,6 +35,94 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const products = [
     {
+        "id": 46894401,
+        "name": "Kadınlar İçin Alüminyumsuz Aydınlatıcı Roll-on Deodorant 50ml",
+        "category": "krem",
+        "image": "https://cdn.shopier.app/pictures_large/fokomersin_86573b6e2c27225e454d29c5eb8ea19a.png",
+        "link": "https://www.shopier.com/fokomersin/46894401",
+        "price": "300 TL"
+    },
+    {
+        "id": 46894160,
+        "name": "Erkekler İçin Alüminyumsuz Aydınlatıcı Roll-on Deodorant 50ml",
+        "category": "krem",
+        "image": "https://cdn.shopier.app/pictures_large/fokomersin_f4101875bd6025542b5b14de79cc37e3.png",
+        "link": "https://www.shopier.com/fokomersin/46894160",
+        "price": "300 TL"
+    },
+    {
+        "id": 46894017,
+        "name": "Erkekler İçin Özel Geliştirilmiş Dengeleyici Duş Jeli",
+        "category": "krem",
+        "image": "https://cdn.shopier.app/pictures_large/fokomersin_9628e7068906f7ee63e524ab789cd538.png",
+        "link": "https://www.shopier.com/fokomersin/46894017",
+        "price": "400 TL"
+    },
+    {
+        "id": 46868580,
+        "name": "Kadınlar İçin Özel Geliştirilmiş Nemlendirici Duş Jeli",
+        "category": "krem",
+        "image": "https://cdn.shopier.app/pictures_large/fokomersin_43fbff40c7aacffd72fb354d144a9508.png",
+        "link": "https://www.shopier.com/fokomersin/46868580",
+        "price": "400 TL"
+    },
+    {
+        "id": 46868290,
+        "name": "Molecules Spor Sonrası Özel Geliştirilmiş Duş Jeli",
+        "category": "sac",
+        "image": "https://cdn.shopier.app/pictures_large/fokomersin_7d369471df63254c7389152d057351bb.png",
+        "link": "https://www.shopier.com/fokomersin/46868290",
+        "price": "500 TL"
+    },
+    {
+        "id": 46861502,
+        "name": "Havuz Sonrası Saç ve Vücut Şampuanı",
+        "category": "sac",
+        "image": "https://cdn.shopier.app/pictures_large/fokomersin_91735fe14f472f587d212e75e87d0e2e.png",
+        "link": "https://www.shopier.com/fokomersin/46861502",
+        "price": "500 TL"
+    },
+    {
+        "id": 46861235,
+        "name": "Boyalı ve Kuru Saçlar İçin Saç Kremi",
+        "category": "sac",
+        "image": "https://cdn.shopier.app/pictures_large/fokomersin_8826c87d9c54147af4a1a33030a0c2b4.png",
+        "link": "https://www.shopier.com/fokomersin/46861235",
+        "price": "400 TL"
+    },
+    {
+        "id": 46860963,
+        "name": "Kıvırcık ve Dalgalı Saçlar İçin Saç Kremi",
+        "category": "sac",
+        "image": "https://cdn.shopier.app/pictures_large/fokomersin_2117fe6fff0ab8511acc7c1f6be8f03b.png",
+        "link": "https://www.shopier.com/fokomersin/46860963",
+        "price": "400 TL"
+    },
+    {
+        "id": 46860764,
+        "name": "Bukle Belirginleştirici Saç Serumu",
+        "category": "sac",
+        "image": "https://cdn.shopier.app/pictures_large/fokomersin_0d7048e8606d34d62a9d325efa791b71.png",
+        "link": "https://www.shopier.com/fokomersin/46860764",
+        "price": "300 TL"
+    },
+    {
+        "id": 46860611,
+        "name": "Kıvırcık ve Dalgalı Saçlar İçin Şampuan",
+        "category": "sac",
+        "image": "https://cdn.shopier.app/pictures_large/fokomersin_d8af8f568c5d361babb5d44f060c998c.png",
+        "link": "https://www.shopier.com/fokomersin/46860611",
+        "price": "375 TL"
+    },
+    {
+        "id": 46860528,
+        "name": "Tüylenmeye ve Akneye Meyilli Ciltler İçin Cilt Bakım Serumu",
+        "category": "serum",
+        "image": "https://cdn.shopier.app/pictures_large/fokomersin_d435b82d1111ef7afc0c45c1690996b3.png",
+        "link": "https://www.shopier.com/fokomersin/46860528",
+        "price": "300 TL"
+    },
+    {
         "id": 44547908,
         "name": "Tesadüf Kadın Parfümü 30ml",
         "category": "parfum",
@@ -42,6 +130,7 @@ document.addEventListener('DOMContentLoaded', () => {
         "link": "https://www.shopier.com/fokomersin/40866501",
         "price": "500 TL"
     },
+
     {
         "id": 44547909,
         "name": "Hayat Kadın Parfümü 30ml",
