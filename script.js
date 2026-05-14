@@ -35,38 +35,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const products = [
     {
-        "id": 46894401,
-        "name": "Kadınlar İçin Alüminyumsuz Aydınlatıcı Roll-on Deodorant 50ml",
-        "category": "krem",
-        "image": "https://cdn.shopier.app/pictures_large/fokomersin_86573b6e2c27225e454d29c5eb8ea19a.png",
-        "link": "https://www.shopier.com/fokomersin/46894401",
-        "price": "300 TL"
-    },
-    {
-        "id": 46894160,
-        "name": "Erkekler İçin Alüminyumsuz Aydınlatıcı Roll-on Deodorant 50ml",
-        "category": "krem",
-        "image": "https://cdn.shopier.app/pictures_large/fokomersin_f4101875bd6025542b5b14de79cc37e3.png",
-        "link": "https://www.shopier.com/fokomersin/46894160",
-        "price": "300 TL"
-    },
-    {
-        "id": 46894017,
-        "name": "Erkekler İçin Özel Geliştirilmiş Dengeleyici Duş Jeli",
-        "category": "krem",
-        "image": "https://cdn.shopier.app/pictures_large/fokomersin_9628e7068906f7ee63e524ab789cd538.png",
-        "link": "https://www.shopier.com/fokomersin/46894017",
-        "price": "400 TL"
-    },
-    {
-        "id": 46868580,
-        "name": "Kadınlar İçin Özel Geliştirilmiş Nemlendirici Duş Jeli",
-        "category": "krem",
-        "image": "https://cdn.shopier.app/pictures_large/fokomersin_43fbff40c7aacffd72fb354d144a9508.png",
-        "link": "https://www.shopier.com/fokomersin/46868580",
-        "price": "400 TL"
-    },
-    {
         "id": 46868290,
         "name": "Molecules Spor Sonrası Özel Geliştirilmiş Duş Jeli",
         "category": "sac",
